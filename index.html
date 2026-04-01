@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dwiti Bhavsar |Senior Data Analyst</title>
+  <title>Dwiti | Data Scientist & Analyst</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -82,16 +82,9 @@
     }
     .photo-inner img {
       width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
-     
     }
-    .photo-placeholder-icon {
-      font-size: 3.5rem; line-height: 1;
-      color: #cbd5e1;
-    }
-    .photo-placeholder-text {
-      font-size: 0.7rem; color: #94a3b8; font-weight: 500; margin-top: 0.3rem;
-      text-align: center; padding: 0 0.5rem;
-    }
+    .photo-placeholder-icon { display: none; }
+    .photo-placeholder-text { display: none; }
     .hero-label {
       display: inline-block;
       background: var(--accent-light); color: var(--accent);
@@ -213,7 +206,7 @@
 
   <!-- Nav -->
   <nav>
-    <a href="#hero" class="nav-logo">Dwiti</a>
+    <a href="#hero" class="nav-logo">Dwiti Bhavsar</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Work</a></li>
@@ -225,11 +218,12 @@
   <section id="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-label">Available for new opportunities</div>
-        <h1>Senior Data Scientist<br />&amp; <span>Analyst</span></h1>
+        <div class="hero-label">Data Scientist · Senior Analyst</div>
+        <h1>I turn messy data<br />into <span>decisions that stick.</span></h1>
         <p class="hero-sub">
-          I turn messy real-world data into decisions that stick — building end-to-end pipelines,
-          predictive models, and analytics platforms that people actually use.
+          10+ years of production analytics: revenue risk models, NLP platforms, forecasting
+          pipelines, built in real organisations under real constraints. I work end-to-end:
+          from wrangling complex data and building ML models to dashboards that people actually use.
         </p>
         <div class="hero-btns">
           <a href="#projects" class="btn btn-primary">View My Work →</a>
@@ -240,10 +234,7 @@
       <div class="hero-photo">
         <div class="photo-ring">
           <div class="photo-inner">
-            <!-- To add your photo: save it as "profile.jpg" in the same folder as index.html,
-                 then remove the display:none style from the img tag below -->
             <img src="profile.jpg" alt="Dwiti Bhavsar" />
-        
           </div>
         </div>
       </div>
@@ -259,43 +250,48 @@
       <div class="about-grid">
         <div class="about-text">
           <p>
-            I'm a Senior Data Analyst with hands-on experience across the full analytics stack —
-            from building lakehouse pipelines on Azure to deploying Power BI dashboards used
-            by operational teams daily.
+            I'm a Senior Data Analyst with 10+ years of experience turning complex commercial,
+            sales, and financial data into decisions that move businesses forward. From a revenue
+            risk model protecting £5M annually to an AI-powered NPS platform used by 1,000+
+            people across a global enterprise.
           </p>
           <p>
-            My work spans the finance, facilities management, and tech sectors. I'm drawn to
-            problems where data is imperfect, context is complex, and the answer genuinely changes
-            how a business moves.
+            I'm now deliberately expanding into data science, building ML models, time series
+            forecasting systems, and end-to-end Python pipelines as independent projects. My goal
+            is to bring production-grade analytical thinking to data science problems, not just
+            notebook experiments.
           </p>
           <p>
-            Outside of work I write about data science on Substack, focusing on the craft and
-            decisions behind real analyses.
+            Everything in this portfolio is either real work I've shipped professionally
+            or projects I'm actively building. No fluff, no tutorials repackaged as projects.
           </p>
           <div class="skills-list">
+            <span class="skill-tag">Power BI · DAX</span>
             <span class="skill-tag">Python</span>
             <span class="skill-tag">SQL</span>
-            <span class="skill-tag">Azure Data Factory</span>
-            <span class="skill-tag">Power BI</span>
-            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">Microsoft Fabric</span>
+            <span class="skill-tag">Databricks</span>
+            <span class="skill-tag">Azure Data Ecosystem</span>
+            <span class="skill-tag">GPT Integration</span>
             <span class="skill-tag">NLP</span>
-            <span class="skill-tag">Time Series</span>
-            <span class="skill-tag">Lakehouse Architecture</span>
-            <span class="skill-tag">Forecasting</span>
+            <span class="skill-tag">Revenue Risk Modelling</span>
+            <span class="skill-tag">Pipeline Analytics</span>
+            <span class="skill-tag">Salesforce / CRM</span>
+            <span class="skill-tag">Predictive Modelling</span>
           </div>
         </div>
         <div class="about-stats">
           <div class="stat-card">
             <div class="stat-number">10+</div>
-            <div class="stat-desc">Years building data products end-to-end</div>
+            <div class="stat-desc">Years in analytics, now expanding into Data Science</div>
           </div>
           <div class="stat-card">
             <div class="stat-number">3</div>
             <div class="stat-desc">Industries: Finance, FM &amp; Tech</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number">1</div>
-            <div class="stat-desc">Award-winning production analytics platform</div>
+            <div class="stat-number">3×</div>
+            <div class="stat-desc">Award winner: MitieStar · Employee of Month · Rising Star</div>
           </div>
         </div>
       </div>
@@ -306,7 +302,7 @@
   <section id="projects">
     <div class="section-inner">
       <p class="section-label">Work</p>
-      <h2>Case Studies &amp; Projects</h2>
+      <h2>Professional Work &amp; DS Projects</h2>
       <hr class="section-divider" />
       <div class="projects-grid">
 
@@ -316,7 +312,7 @@
           <div class="card-title">NPS Intelligence Platform</div>
           <div class="card-desc">
             Award-winning production platform that transformed raw customer satisfaction data
-            into actionable operational intelligence — connecting 50k+ survey responses
+            into actionable operational intelligence, connecting 50k+ survey responses
             to service outcomes across multiple service lines.
           </div>
           <div class="card-tags">
@@ -328,14 +324,72 @@
           <div class="card-footer">Read case study →</div>
         </a>
 
-        <!-- Case Study 2: Energy Forecasting -->
-        <a href="energy-forecasting.html" class="project-card">
-          <div class="card-type">Project</div>
+        <!-- Customer Churn Prediction -->
+        <a href="https://github.com/dwitibh/Machine-learning/blob/main/Churn_project.ipynb" target="_blank" class="project-card">
+          <div class="card-type">ML · Classification</div>
+          <div class="card-title">Customer Churn Prediction</div>
+          <div class="card-desc">
+            EDA and ML classification on 1,000 customer records across 10 features. Uncovered
+            a 0.89 correlation between tenure and total charges. Built and compared five
+            models (Logistic Regression, KNN, SVM, Decision Tree, Random Forest) with GridSearchCV
+            tuning. Best model serialised with joblib for deployment.
+          </div>
+          <div class="card-tags">
+            <span class="card-tag">scikit-learn</span>
+            <span class="card-tag">Classification</span>
+            <span class="card-tag">GridSearchCV</span>
+            <span class="card-tag">Python</span>
+          </div>
+          <div class="card-footer">View on GitHub →</div>
+        </a>
+
+        <!-- Retail Pipeline Forecasting (Prophet) -->
+        <a href="https://github.com/dwitibh/Pipeline-Forecast-Prophet-Time-Series-Forecasting" target="_blank" class="project-card">
+          <div class="card-type">Time Series · Forecasting</div>
+          <div class="card-title">Retail Pipeline Forecasting</div>
+          <div class="card-desc">
+            Daily sales forecasting on 1,080 rows of retail data using Facebook Prophet. Handled
+            a non-standard ddmmyyyy integer date format with custom parsing, then modelled
+            daily, weekly, and yearly seasonality. Forecast extended 100 days with 95% uncertainty
+            intervals and full component decomposition.
+          </div>
+          <div class="card-tags">
+            <span class="card-tag">Prophet</span>
+            <span class="card-tag">Time Series</span>
+            <span class="card-tag">Retail</span>
+            <span class="card-tag">Python</span>
+          </div>
+          <div class="card-footer">View on GitHub →</div>
+        </a>
+
+        <!-- Energy Demand Forecasting (XGBoost) -->
+        <a href="https://github.com/dwitibh/Machine-learning/blob/main/Time_series.ipynb" target="_blank" class="project-card">
+          <div class="card-type">Time Series · Forecasting</div>
+          <div class="card-title">Energy Demand Forecasting</div>
+          <div class="card-desc">
+            XGBoost regression on 145,000+ rows of hourly PJM energy data spanning 2002–2018.
+            Engineered calendar features (hour, day-of-week, quarter, month, year, day-of-year),
+            trained with early stopping, and achieved an RMSE of 3,958 MW on the held-out test
+            set. Post-prediction error analysis identified August 2016 heatwave days as the
+            largest model blind spots.
+          </div>
+          <div class="card-tags">
+            <span class="card-tag">XGBoost</span>
+            <span class="card-tag">Energy</span>
+            <span class="card-tag">Feature Engineering</span>
+            <span class="card-tag">Python</span>
+          </div>
+          <div class="card-footer">View on GitHub →</div>
+        </a>
+
+        <!-- Fuel Shock Forecasting — In Progress -->
+        <a href="case-studies/energy-forecasting.html" class="project-card card-wip">
+          <div class="card-type">Project · In Progress</div>
           <div class="card-title">Fuel Shock Forecasting</div>
           <div class="card-desc">
-            End-to-end forecasting pipeline for global energy price shocks, using geopolitical
-            disruption signals from IEA, World Bank, and UN Comtrade data — from EDA
-            through to a deployed dashboard.
+            An end-to-end pipeline for detecting and forecasting global energy price shocks,
+            using geopolitical disruption signals, supply data, and macroeconomic indicators
+            to build a deployable forecasting model with an interactive dashboard.
           </div>
           <div class="card-tags">
             <span class="card-tag">Time Series</span>
@@ -345,9 +399,6 @@
           </div>
           <div class="card-footer">View project →</div>
         </a>
-
-        <!-- Add more project cards below. Copy the block above and update the details. -->
-        <!-- You can link GitHub repos directly: href="https://github.com/YOUR-USERNAME/repo" -->
 
       </div>
     </div>
