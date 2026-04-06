@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workplace Experience Analytics | Dwiti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #0f766e;
+      --accent-light: #f0fdfa;
+      --accent-mid: #14b8a6;
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+      --border: #e5e7eb;
+      --bg: #ffffff;
+      --bg-soft: #f9fafb;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text-primary); background: var(--bg); line-height: 1.6; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--text-primary); text-decoration: none; }
+    .nav-back  { text-decoration: none; font-size: 0.88rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+
+    /* Hero */
+    .cs-hero {
+      padding: 70px 5% 50px; max-width: 820px; margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-label {
+      display: inline-block; background: var(--accent-light); color: var(--accent);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 1.2rem;
+    }
+    .cs-title   { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .cs-summary { font-size: 1.05rem; color: var(--text-secondary); max-width: 640px; line-height: 1.75; margin-bottom: 1.8rem; }
+    .cs-meta    { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .meta-item  { font-size: 0.85rem; }
+    .meta-label { font-weight: 600; color: var(--text-secondary); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; }
+    .meta-value { color: var(--text-primary); margin-top: 2px; }
+
+    /* Content */
+    .cs-body { max-width: 820px; margin: 0 auto; padding: 50px 5% 80px; }
+    .cs-body h2 { font-size: 1.4rem; font-weight: 700; margin: 2.8rem 0 0.8rem; color: var(--text-primary); }
+    .cs-body h3 { font-size: 1.05rem; font-weight: 600; margin: 1.8rem 0 0.5rem; color: var(--text-primary); }
+    .cs-body p  { color: var(--text-secondary); font-size: 0.97rem; line-height: 1.8; margin-bottom: 1rem; }
+    .cs-body ul { margin: 0.6rem 0 1rem 1.2rem; }
+    .cs-body ul li { color: var(--text-secondary); font-size: 0.97rem; line-height: 1.75; margin-bottom: 0.4rem; }
+
+    /* Callout */
+    .callout {
+      background: var(--accent-light); border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0; padding: 1.2rem 1.5rem; margin: 1.5rem 0;
+    }
+    .callout p { color: var(--text-primary); font-weight: 500; margin: 0; }
+
+    /* Metrics */
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+    .metric-card  { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem 1.2rem; border-top: 3px solid var(--accent); }
+    .metric-card.purple { border-top-color: #7c3aed; }
+    .metric-card.orange { border-top-color: #f97316; }
+    .metric-card.blue   { border-top-color: #2563eb; }
+    .metric-number { font-size: 1.9rem; font-weight: 700; color: var(--accent); }
+    .metric-card.purple .metric-number { color: #7c3aed; }
+    .metric-card.orange .metric-number { color: #f97316; }
+    .metric-card.blue   .metric-number { color: #2563eb; }
+    .metric-label  { font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.3rem; line-height: 1.5; }
+
+    /* Stack tags */
+    .stack-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.8rem 0 1rem; }
+    .stack-tag  { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; padding: 5px 14px; font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); }
+
+    /* Pipeline */
+    .pipeline-wrap {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem 1.5rem; margin: 1.5rem 0;
+    }
+    .pipeline-title {
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 1.4rem; text-align: center;
+    }
+    .pipeline { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0; }
+    .pipe-step {
+      display: flex; flex-direction: column; align-items: center;
+      background: #fff; border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.9rem 1rem; min-width: 105px; text-align: center;
+      box-shadow: var(--shadow); flex: 0 0 auto;
+    }
+    .pipe-step.highlight { border-color: var(--accent); background: var(--accent-light); }
+    .pipe-icon  { font-size: 1.4rem; margin-bottom: 0.35rem; }
+    .pipe-label { font-size: 0.78rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+    .pipe-sub   { font-size: 0.68rem; color: var(--text-secondary); margin-top: 0.2rem; }
+    .pipe-arrow { font-size: 1.1rem; color: var(--text-secondary); padding: 0 0.4rem; flex: 0 0 auto; align-self: center; }
+
+    /* Three-track methodology */
+    .track-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; }
+    .track-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.4rem 1.2rem; background: var(--bg-soft);
+      border-top: 3px solid var(--accent);
+    }
+    .track-card.purple { border-top-color: #7c3aed; }
+    .track-card.blue   { border-top-color: #2563eb; }
+    .track-icon  { font-size: 1.6rem; margin-bottom: 0.6rem; }
+    .track-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .track-desc  { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.65; }
+
+    /* Charts */
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; }
+    .chart-card {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem 1.2rem;
+    }
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-card-title {
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--text-secondary); margin-bottom: 1rem; text-align: center;
+    }
+    .chart-note { font-size: 0.72rem; color: var(--text-secondary); text-align: center; font-style: italic; margin-top: 0.6rem; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem; justify-content: center; margin-top: 0.9rem; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--text-secondary); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+    .donut-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+    .donut-centre { position: absolute; text-align: center; pointer-events: none; }
+    .donut-centre .big   { font-size: 1.7rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .donut-centre .small { font-size: 0.65rem; color: var(--text-secondary); margin-top: 3px; }
+
+    /* Persona cards */
+    .persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .persona-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.3rem 1.2rem; background: #fff;
+      box-shadow: var(--shadow); transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .persona-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .persona-badge {
+      display: inline-block; font-size: 0.68rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 2px 8px; border-radius: 4px; margin-bottom: 0.7rem;
+    }
+    .badge-primary   { background: #f0fdfa; color: #0f766e; }
+    .badge-secondary { background: #faf5ff; color: #7c3aed; }
+    .badge-extended  { background: #fff7ed; color: #c2410c; }
+    .persona-name { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
+    .persona-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.8rem; }
+    .persona-logic {
+      background: var(--bg-soft); border-radius: 6px; padding: 0.6rem 0.8rem;
+      font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5;
+    }
+    .persona-logic strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Tier labels */
+    .tier-label {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-secondary);
+      margin: 2rem 0 0.8rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .tier-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* Circumplex image */
+    .viz-block {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin: 1.5rem 0; box-shadow: var(--shadow);
+    }
+    .viz-block img { width: 100%; display: block; }
+    .viz-caption {
+      padding: 0.8rem 1.2rem; background: var(--bg-soft);
+      font-size: 0.78rem; color: var(--text-secondary); border-top: 1px solid var(--border);
+      font-style: italic;
+    }
+
+    /* Tech cards */
+    .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .tech-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.3rem 1.2rem; background: var(--bg-soft); }
+    .tech-card-icon  { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .tech-card-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
+    .tech-card-desc  { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.65; }
+
+    /* Code block */
+    .code-block { background: #0f172a; border-radius: var(--radius); padding: 1.4rem 1.5rem; margin: 1rem 0; overflow-x: auto; }
+    .code-block pre { font-size: 0.78rem; line-height: 1.7; color: #e2e8f0; font-family: 'Courier New', monospace; white-space: pre-wrap; }
+    .code-kw  { color: #7dd3fc; }
+    .code-str { color: #fcd34d; }
+    .code-cmt { color: #64748b; }
+
+    /* Outcome cards */
+    .outcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .outcome-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.3rem 1.2rem; background: var(--bg-soft);
+      display: flex; gap: 0.9rem; align-items: flex-start;
+    }
+    .outcome-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .outcome-text { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.65; }
+    .outcome-text strong { color: var(--text-primary); display: block; margin-bottom: 0.2rem; font-weight: 600; }
+
+    /* Footer nav */
+    .cs-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 3rem; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #0d6b64; }
+    .btn-outline { background: transparent; color: var(--text-primary); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    footer { text-align: center; padding: 2rem 5%; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary); }
+
+    @media (max-width: 700px) {
+      .cs-meta       { flex-direction: column; gap: 0.8rem; }
+      .metrics-grid  { grid-template-columns: 1fr 1fr; }
+      .track-grid    { grid-template-columns: 1fr; }
+      .chart-grid    { grid-template-columns: 1fr; }
+      .chart-card.full { grid-column: unset; }
+      .persona-grid  { grid-template-columns: 1fr; }
+      .tech-grid     { grid-template-columns: 1fr; }
+      .outcome-grid  { grid-template-columns: 1fr; }
+      .pipeline      { gap: 0.4rem; }
+      .pipe-arrow    { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">Dwiti</a>
+    <a href="../index.html" class="nav-back">← Back to portfolio</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <span class="cs-label">Case Study · Workplace Analytics</span>
+    <h1 class="cs-title">Workplace Experience Analytics Platform</h1>
+    <p class="cs-summary">
+      A client-facing analytics platform that transforms raw workplace survey responses into
+      strategic workforce intelligence: combining demographic segmentation, behavioural persona
+      classification, and NLP-driven comment analysis to help consultants identify workplace issues
+      and recommend targeted interventions.
+    </p>
+    <div class="cs-meta">
+      <div class="meta-item">
+        <div class="meta-label">Domain</div>
+        <div class="meta-value">Workplace Strategy &amp; People Analytics</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Stack</div>
+        <div class="meta-value">Microsoft Fabric · Power Query · Power BI · Python</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Delivery</div>
+        <div class="meta-value">Client-facing consulting deliverable</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Scale</div>
+        <div class="meta-value">1,000+ survey responses per engagement</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- Key metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-number">1,000+</div>
+        <div class="metric-label">Survey responses processed per client engagement</div>
+      </div>
+      <div class="metric-card purple">
+        <div class="metric-number">15</div>
+        <div class="metric-label">Behavioural personas defined with multi-condition logic</div>
+      </div>
+      <div class="metric-card orange">
+        <div class="metric-number">3</div>
+        <div class="metric-label">Analysis layers: demographic, persona &amp; sentiment</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="metric-number">45+</div>
+        <div class="metric-label">Survey questions mapped across seven thematic areas</div>
+      </div>
+    </div>
+
+    <!-- The Problem -->
+    <h2>The Problem</h2>
+    <p>
+      Organisations commission workplace surveys but typically receive a report of averages: overall
+      satisfaction scores sliced by department or location. The numbers tell <em>what</em> employees
+      scored, but not <em>who</em> is driving those scores or <em>why</em>. A 3.4/7 satisfaction
+      rating for "indoor environment quality" looks the same whether it comes from a full-time office
+      worker with sensory sensitivities or a hybrid manager who simply prefers quieter meeting rooms.
+    </p>
+    <p>
+      Consultants needed to move beyond headline scores and give clients specific, actionable
+      intelligence: which employee groups are most affected, what behaviours and needs characterise
+      those groups, and where workplace interventions would have the greatest impact.
+    </p>
+
+    <div class="callout">
+      <p>💡 The platform powers the consultant workflow. Analysts run the models, then use the outputs to build structured recommendations directly for the client's leadership team.</p>
+    </div>
+
+    <!-- Methodology -->
+    <h2>Analytical Approach</h2>
+    <p>
+      The platform was designed around three complementary analysis tracks that work together
+      to give a complete picture of the workforce. Each track answers a different question.
+    </p>
+
+    <div class="track-grid">
+      <div class="track-card">
+        <div class="track-icon">📊</div>
+        <div class="track-title">Demographic Segmentation</div>
+        <div class="track-desc">Slices satisfaction and importance scores by age group, tenure, caring responsibilities, contract type, line management status, and work location, answering <em>"Which groups are underserved?"</em></div>
+      </div>
+      <div class="track-card purple">
+        <div class="track-icon">🧩</div>
+        <div class="track-title">Persona Classification</div>
+        <div class="track-desc">Assigns each respondent to one of 15 behavioural personas using multi-condition logic built on survey answers, answering <em>"What kind of worker is each person, and what do they need?"</em></div>
+      </div>
+      <div class="track-card blue">
+        <div class="track-icon">💬</div>
+        <div class="track-title">Free-Text Sentiment Analysis</div>
+        <div class="track-desc">Processes open-ended comments with a Python NLP pipeline to extract themes, emotional tone, and recurring signals, answering <em>"What are employees actually saying?"</em></div>
+      </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="pipeline-wrap">
+      <div class="pipeline-title">End-to-End Analysis Pipeline</div>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-icon">📋</div>
+          <div class="pipe-label">Survey Platform</div>
+          <div class="pipe-sub">Raw responses</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">☁️</div>
+          <div class="pipe-label">Microsoft Fabric</div>
+          <div class="pipe-sub">Lakehouse &amp; shape</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight">
+          <div class="pipe-icon">🧩</div>
+          <div class="pipe-label">Power Query</div>
+          <div class="pipe-sub">Persona logic</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight">
+          <div class="pipe-icon">🐍</div>
+          <div class="pipe-label">Python NLP</div>
+          <div class="pipe-sub">Comment analysis</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">📈</div>
+          <div class="pipe-label">Power BI</div>
+          <div class="pipe-sub">Client dashboard</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">🏢</div>
+          <div class="pipe-label">Consultant Report</div>
+          <div class="pipe-sub">Recommendations</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Track 1: Demographics -->
+    <h2>Track 1: Demographic Segmentation</h2>
+    <p>
+      The first layer of analysis compares satisfaction and importance scores across every major
+      demographic cut available in the survey. This identifies statistically meaningful differences
+      between groups. For example, whether employees with caring responsibilities rate flexibility
+      support significantly lower than those without, or whether Gen Z employees place notably higher
+      importance on social collaboration than older cohorts.
+    </p>
+    <p>
+      Key demographic dimensions analysed across all seven workplace themes (space, technology,
+      wellbeing, collaboration, flexibility, environment, and culture):
+    </p>
+    <ul>
+      <li><strong>Age group:</strong> Gen Z, Millennial, Gen X, Boomer</li>
+      <li><strong>Tenure:</strong> under 1 year through to 10+ years</li>
+      <li><strong>Caring responsibilities:</strong> with and without dependants</li>
+      <li><strong>Neurodiversity / disability:</strong> self-reported</li>
+      <li><strong>Line management status:</strong> manager vs. individual contributor</li>
+      <li><strong>Work location split:</strong> % time in office vs. home vs. other sites</li>
+      <li><strong>Contract type:</strong> permanent full-time, part-time, contract</li>
+    </ul>
+
+    <!-- Demographic charts -->
+    <div class="chart-grid">
+
+      <div class="chart-card">
+        <div class="chart-card-title">Age Group Distribution</div>
+        <div class="donut-wrap">
+          <canvas id="chartAge" height="200"></canvas>
+          <div class="donut-centre">
+            <div class="big">4</div>
+            <div class="small">groups</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0f766e"></div>Gen Z (18%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div>Millennial (34%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Gen X (31%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>Boomer (17%)</div>
+        </div>
+        <div class="chart-note">Illustrative distribution based on typical client workforce profile</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Work Location Split</div>
+        <div class="donut-wrap">
+          <canvas id="chartLocation" height="200"></canvas>
+          <div class="donut-centre">
+            <div class="big">3</div>
+            <div class="small">locations</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Office (38%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#0f766e"></div>Home (46%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>On the move (16%)</div>
+        </div>
+        <div class="chart-note">Illustrative distribution based on typical client workforce profile</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Tenure Breakdown</div>
+        <canvas id="chartTenure" height="180"></canvas>
+        <div class="chart-note">Illustrative distribution based on typical client workforce profile</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Caring Responsibilities</div>
+        <div class="donut-wrap">
+          <canvas id="chartCaring" height="180"></canvas>
+          <div class="donut-centre">
+            <div class="big">38%</div>
+            <div class="small">carers</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Has caring responsibilities (38%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#e5e7eb"></div>No caring responsibilities (62%)</div>
+        </div>
+        <div class="chart-note">Illustrative distribution based on typical client workforce profile</div>
+      </div>
+
+    </div>
+
+    <!-- Track 2: Persona Classification -->
+    <h2>Track 2: Behavioural Persona Classification</h2>
+    <p>
+      The most technically complex part of the platform. Rather than grouping employees by
+      demographics alone, the persona model uses a set of conditional rules, each derived
+      from specific survey question responses, to classify each respondent into one of 15
+      behavioural archetypes. The result is an employee population map that consultants can
+      use to understand not just satisfaction scores, but the underlying patterns of how people
+      work and what they need from their environment.
+    </p>
+    <p>
+      Personas were developed across three tiers of strategic relevance:
+    </p>
+
+    <!-- Persona distribution chart -->
+    <div class="chart-grid">
+      <div class="chart-card full">
+        <div class="chart-card-title">Persona Distribution Across Workforce (Primary Personas)</div>
+        <canvas id="chartPersona" height="120"></canvas>
+        <div class="chart-note">Illustrative percentage breakdown showing how a typical client workforce maps across the five primary personas</div>
+      </div>
+    </div>
+
+    <div class="tier-label">Primary Personas: Core for most organisations</div>
+    <div class="persona-grid">
+
+      <div class="persona-card">
+        <span class="persona-badge badge-primary">Primary</span>
+        <div class="persona-name">🏠 Remote Specialist</div>
+        <div class="persona-desc">Primarily works from home with minimal need for in-person collaboration. Values a quiet, well-equipped home workspace and reliable digital tools.</div>
+        <div class="persona-logic"><strong>Logic:</strong> WFH &gt;= 80% + dedicated home office + individual work importance &gt;= 5 + office visits &lt;= 1 day/week</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-primary">Primary</span>
+        <div class="persona-name">🤝 Collaborative Team Leader</div>
+        <div class="persona-desc">Spends most of the week in the office, leads a team, and relies on face-to-face collaboration and meetings to manage work effectively.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Line manager = Yes + office &gt;= 3 days/week + team collaboration or meetings importance &gt;= 5</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-primary">Primary</span>
+        <div class="persona-name">👨‍👧 Hybrid Parent</div>
+        <div class="persona-desc">Balances office and home working with caring responsibilities. Needs flexibility, supportive policies, and predictable environments to stay productive.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Caring responsibilities = Yes + office time 40-60% + comments flagging balance or flexibility</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-primary">Primary</span>
+        <div class="persona-name">🎧 Sensory-Conscious Contributor</div>
+        <div class="persona-desc">Experiences sensory sensitivity (noise, lighting, temperature) and values calm, adjustable environments that support focus and wellbeing.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Neurodivergent = Yes + sensory importance &gt;= 5 + sensory satisfaction &lt;= 3</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-primary">Primary</span>
+        <div class="persona-name">✈️ On-the-Move Consultant</div>
+        <div class="persona-desc">Regularly travels between offices or client sites. Relies on mobile working setups, ad hoc meeting areas, and robust tech access on the go.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Other office / on-the-move &gt;= 30% + no fixed desk + commute time &gt;= 30 min</div>
+      </div>
+
+    </div>
+
+    <div class="tier-label">Secondary Personas: Strategic differentiators</div>
+    <div class="persona-grid">
+
+      <div class="persona-card">
+        <span class="persona-badge badge-secondary">Secondary</span>
+        <div class="persona-name">🌿 Wellbeing Seeker</div>
+        <div class="persona-desc">Prioritises mental and physical health. May be at risk of stress or burnout and values access to wellbeing resources and psychological safety.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Workload stress &lt;= 2 + wellbeing support importance &gt;= 5 + wellbeing satisfaction &lt;= 3</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-secondary">Secondary</span>
+        <div class="persona-name">🖥️ Desk-Driven Regular</div>
+        <div class="persona-desc">Prefers a consistent, office-based routine with a fixed desk and clear structure. Finds comfort in routine and personal ownership of space.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Office &gt;= 90% + dedicated desk + workspace satisfaction &gt;= 5</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-secondary">Secondary</span>
+        <div class="persona-name">🌱 Emerging Professional</div>
+        <div class="persona-desc">Early in their career and focused on learning, growth, and connecting with others. Values access to mentoring, visibility, and team engagement.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Tenure &lt;= 3 years + social/collaboration importance &gt;= 5 + optional: Gen Z / Millennial age band</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-secondary">Secondary</span>
+        <div class="persona-name">⚡ Digital Optimiser</div>
+        <div class="persona-desc">Highly confident with technology, often works hybrid, and relies on digital tools to collaborate efficiently across locations and teams.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Digital tools importance &gt;= 5 + IT satisfaction &gt;= 5 + works across &gt;= 2 locations</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-secondary">Secondary</span>
+        <div class="persona-name">🚪 Quiet Leaver</div>
+        <div class="persona-desc">Low sense of connection or satisfaction. At risk of silent disengagement and unlikely to express concerns openly through standard channels.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Overall satisfaction avg &lt;= 3 + belonging score &lt;= 3 + optional: work activities satisfaction &lt;= 3</div>
+      </div>
+
+    </div>
+
+    <div class="tier-label">Extended Personas: Optional tier for deeper analysis</div>
+    <div class="persona-grid">
+
+      <div class="persona-card">
+        <span class="persona-badge badge-extended">Extended</span>
+        <div class="persona-name">🧠 Neurodivergent Leader</div>
+        <div class="persona-desc">A manager who identifies as neurodivergent, balancing leadership with a need for environments that support focus, clarity, and psychological safety.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Neurodivergent = Yes + line manager = Yes + sensory importance &gt;= 5</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-extended">Extended</span>
+        <div class="persona-name">🕊️ Flex-Seeker</div>
+        <div class="persona-desc">Often in a contract or part-time role. Values autonomy, mobility, and the ability to shape when and where they work over fixed routines.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Contract / part-time + flexibility importance &gt;= 5 + office time &lt; 60%</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-extended">Extended</span>
+        <div class="persona-name">🔥 Burnout Risk</div>
+        <div class="persona-desc">Struggles with workload, stress, or limited support. Highly capable but close to disengagement without targeted intervention.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Workload stress score &gt;= 6 + wellbeing support satisfaction &lt;= 3 + optional: comment sentiment flags exhaustion</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-extended">Extended</span>
+        <div class="persona-name">🎉 Culture Connector</div>
+        <div class="persona-desc">Highly engaged and socially active. Seeks collaboration, inclusion, and culture-building through events, mentoring, or informal networks.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Office &gt;= 3 days + social importance &gt;= 5 + comments referencing team, inclusion, or engagement</div>
+      </div>
+
+      <div class="persona-card">
+        <span class="persona-badge badge-extended">Extended</span>
+        <div class="persona-name">🚜 Field-Based Nomad</div>
+        <div class="persona-desc">Rarely desk-based, often in the field or on the move. Needs seamless mobile access to tools, data, and occasional touchdown space.</div>
+        <div class="persona-logic"><strong>Logic:</strong> Non-primary work location &gt;= 50% + hot desk or no desk + optional: digital resources satisfaction &lt;= 3</div>
+      </div>
+
+    </div>
+
+    <!-- Persona logic implementation -->
+    <h3>How Persona Logic Was Implemented</h3>
+    <p>
+      Each persona was implemented as a conditional classification rule in Power Query (M language),
+      operating on a per-respondent basis. The survey data was structured in a long format with one
+      row per question response, so the first step was grouping all answers by <code>unique_response_id</code>
+      to reconstruct each individual's full response profile. Helper functions extracted specific
+      numeric ratings and checked for the presence of categorical answers, enabling clean IF/AND logic
+      across multiple conditions.
+    </p>
+
+    <div class="code-block">
+      <pre><span class="code-cmt">// Respondents are grouped so all answers are accessible per person</span>
+<span class="code-kw">GroupedByRespondent</span> = Table.Group(Source, {<span class="code-str">"unique_response_id"</span>}, {
+    {<span class="code-str">"AllResponses"</span>, each _, type table}
+}),
+
+<span class="code-cmt">// Persona conditions are then evaluated per respondent</span>
+<span class="code-kw">AddFinalPersona</span> = Table.AddColumn(ExpandedConditions, <span class="code-str">"Final_Persona"</span>, each
+    <span class="code-kw">if</span> [IsRemoteSpecialist]        = true <span class="code-kw">then</span> <span class="code-str">"Remote Specialist"</span>
+    <span class="code-kw">else if</span> [IsCollaborativeLeader]  = true <span class="code-kw">then</span> <span class="code-str">"Collaborative Team Leader"</span>
+    <span class="code-kw">else if</span> [IsHybridParent]         = true <span class="code-kw">then</span> <span class="code-str">"Hybrid Parent"</span>
+    <span class="code-kw">else if</span> [IsSensoryContributor]   = true <span class="code-kw">then</span> <span class="code-str">"Sensory-Conscious Contributor"</span>
+    <span class="code-kw">else</span> <span class="code-str">"Unclassified"</span>
+)</pre>
+    </div>
+
+    <p>
+      Priority ordering was applied so that each respondent receives exactly one persona assignment,
+      with primary personas taking precedence. The final persona column was then joined back to the
+      original response table, making it available as a slicer dimension in Power BI.
+    </p>
+
+    <!-- Track 3: Sentiment -->
+    <h2>Track 3: Free-Text Comment Analysis</h2>
+    <p>
+      Open-ended survey questions generate the richest qualitative signal, but at 1,000+ responses
+      per engagement they cannot be read manually in a consulting workflow. A Python NLP pipeline
+      was built to process all free-text comments and surface structured outputs for the dashboard.
+    </p>
+    <p>
+      The pipeline performed three operations on each comment: theme extraction (mapping to one
+      of the seven workplace themes: space, technology, wellbeing, collaboration, flexibility,
+      environment, culture), sentiment scoring (positive / neutral / negative), and emotional tone
+      classification using an adapted version of the circumplex model of affect.
+    </p>
+
+    <div class="viz-block">
+      <img src="efb27243-2163-4d5b-b958-6978eb7a8f4d.png" alt="Emotions at Work: Circumplex Model plotting employee emotional states across activation and valence axes" />
+      <div class="viz-caption">Emotions at Work: Circumplex Model. Employee emotional states are plotted across two axes: valence (negative to positive affect) and activation (low to high energy). This validated framework helps surface not just whether employees are satisfied, but how they feel, enabling more targeted interventions for groups showing high-activation negative affect (e.g. stress, hostility) vs. low-activation negative affect (e.g. disengagement, boredom).</div>
+    </div>
+
+    <!-- Sentiment charts -->
+    <div class="chart-grid">
+
+      <div class="chart-card">
+        <div class="chart-card-title">Comment Sentiment Distribution</div>
+        <div class="donut-wrap">
+          <canvas id="chartSentiment" height="200"></canvas>
+          <div class="donut-centre">
+            <div class="big">52%</div>
+            <div class="small">positive</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0f766e"></div>Positive (52%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#e5e7eb"></div>Neutral (28%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Negative (20%)</div>
+        </div>
+        <div class="chart-note">Illustrative distribution across all open-text responses</div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Comment Themes by Volume</div>
+        <canvas id="chartThemes" height="200"></canvas>
+        <div class="chart-note">Illustrative theme distribution across all open-text responses</div>
+      </div>
+
+    </div>
+
+    <p>
+      The circumplex output was particularly valuable for identifying the <strong>Quiet Leaver</strong>
+      and <strong>Burnout Risk</strong> personas, both groups whose numeric satisfaction scores
+      alone may not flag them as at-risk. Low-activation negative affect comments (expressing
+      fatigue, disconnection, or quiet resignation) were disproportionately associated with
+      respondents classified into these two personas.
+    </p>
+
+    <!-- Technical implementation -->
+    <h2>Technical Implementation</h2>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-card-icon">☁️</div>
+        <div class="tech-card-title">Microsoft Fabric: Data Extraction &amp; Shaping</div>
+        <div class="tech-card-desc">
+          Survey responses were ingested and stored in a Microsoft Fabric Lakehouse. The Lakehouse
+          joined response tables to question metadata, client identifiers, and site information,
+          preserving the long-format response structure (one row per answer) for Power Query
+          processing downstream.
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">⚙️</div>
+        <div class="tech-card-title">Power Query (M): Persona Engine</div>
+        <div class="tech-card-desc">
+          The full 15-persona classification system was built in Power Query M language. Helper
+          functions handled numeric extraction, Yes/No detection, and range checking. Respondents
+          were grouped, conditions evaluated per individual, and a priority-ordered persona
+          label joined back to the dataset.
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">🐍</div>
+        <div class="tech-card-title">Python: NLP Comment Pipeline</div>
+        <div class="tech-card-desc">
+          Free-text comments were processed with a Python NLP pipeline covering tokenisation,
+          stop-word removal, and theme classification. Sentiment analysis was applied at
+          comment level, and emotional tone was mapped to circumplex quadrants to identify
+          activation and valence patterns across persona groups.
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-card-icon">📊</div>
+        <div class="tech-card-title">Power BI: Client Dashboard</div>
+        <div class="tech-card-desc">
+          The final enriched dataset (with demographic flags, persona labels, sentiment scores,
+          and circumplex classifications) was loaded into Power BI. Consultants used the dashboard
+          to explore satisfaction and importance gaps by persona, build client presentations,
+          and identify the highest-priority areas for workplace intervention.
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-list">
+      <span class="stack-tag">Microsoft Fabric</span>
+      <span class="stack-tag">Power Query (M)</span>
+      <span class="stack-tag">Power BI</span>
+      <span class="stack-tag">Python</span>
+      <span class="stack-tag">NLP / Sentiment Analysis</span>
+      <span class="stack-tag">Circumplex Affect Model</span>
+      <span class="stack-tag">Persona Modelling</span>
+      <span class="stack-tag">Likert Scale Analysis</span>
+    </div>
+
+    <!-- Impact and Outcomes -->
+    <h2>Impact &amp; Outcomes</h2>
+    <p>
+      The platform fundamentally changed how consultants engaged with survey results. Instead of
+      presenting clients with a static report of average scores, they could have a structured
+      conversation grounded in the specific employee groups driving each issue, and arrive at
+      the meeting with targeted recommendations rather than generic observations.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-text">
+          <strong>Targeted recommendations</strong>
+          Persona-mapped outputs let consultants assign workplace interventions (space redesign, policy change, wellbeing support) to specific employee groups rather than the whole organisation.
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🔍</div>
+        <div class="outcome-text">
+          <strong>Hidden signals surfaced</strong>
+          The Quiet Leaver and Burnout Risk personas, identified through NLP comment tone rather than numeric scores alone, revealed at-risk groups that would have been invisible in a standard satisfaction report.
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-text">
+          <strong>Scalable consulting workflow</strong>
+          Automating comment analysis and persona classification across 1,000+ responses removed manual bottlenecks, enabling the same analytical depth regardless of engagement size.
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🏢</div>
+        <div class="outcome-text">
+          <strong>Client-ready intelligence</strong>
+          Outputs were structured specifically for consultant use. Power BI dashboards were built to support client-facing presentations, not just internal analysis.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>🔗 This project shares a common NLP and comment-analysis methodology with the <a href="nps-platform.html" style="color: var(--accent); font-weight: 600;">NPS Intelligence Platform</a>. Both use free-text processing to surface signals that structured survey data misses.</p>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="cs-nav">
+      <a href="../index.html" class="btn btn-outline">← All Projects</a>
+      <a href="nps-platform.html" class="btn btn-primary">NPS Intelligence Platform →</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Dwiti · Data &amp; Analytics Portfolio</p>
+  </footer>
+
+  <script>
+    const TEAL   = '#0f766e';
+    const TEAL2  = '#14b8a6';
+    const PURPLE = '#7c3aed';
+    const ORANGE = '#f97316';
+    const BLUE   = '#2563eb';
+    const RED    = '#f87171';
+    const SLATE  = '#94a3b8';
+    const GREY   = '#e5e7eb';
+
+    const defaults = {
+      plugins: { legend: { display: false }, tooltip: { callbacks: {} } },
+      animation: { duration: 800 }
+    };
+
+    /* Age Group donut */
+    new Chart(document.getElementById('chartAge'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Gen Z', 'Millennial', 'Gen X', 'Boomer'],
+        datasets: [{ data: [18, 34, 31, 17], backgroundColor: [TEAL, TEAL2, PURPLE, ORANGE], borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: { ...defaults, cutout: '68%', plugins: { legend: { display: false } } }
+    });
+
+    /* Work Location donut */
+    new Chart(document.getElementById('chartLocation'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Office', 'Home', 'On the move'],
+        datasets: [{ data: [38, 46, 16], backgroundColor: [BLUE, TEAL, ORANGE], borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: { ...defaults, cutout: '68%', plugins: { legend: { display: false } } }
+    });
+
+    /* Tenure bar */
+    new Chart(document.getElementById('chartTenure'), {
+      type: 'bar',
+      data: {
+        labels: ['< 1 yr', '1-3 yrs', '3-5 yrs', '5-10 yrs', '10+ yrs'],
+        datasets: [{
+          label: '% of workforce',
+          data: [11, 22, 20, 27, 20],
+          backgroundColor: [TEAL, TEAL2, BLUE, PURPLE, ORANGE],
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        ...defaults,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#6b7280' } },
+          y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 }, color: '#6b7280', callback: v => v + '%' }, max: 35 }
+        }
+      }
+    });
+
+    /* Caring responsibilities donut */
+    new Chart(document.getElementById('chartCaring'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Has caring responsibilities', 'No caring responsibilities'],
+        datasets: [{ data: [38, 62], backgroundColor: [PURPLE, GREY], borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: { ...defaults, cutout: '68%', plugins: { legend: { display: false } } }
+    });
+
+    /* Persona distribution horizontal bar */
+    new Chart(document.getElementById('chartPersona'), {
+      type: 'bar',
+      data: {
+        labels: ['Remote Specialist', 'Collaborative Team Leader', 'Hybrid Parent', 'Sensory-Conscious Contributor', 'On-the-Move Consultant'],
+        datasets: [{
+          label: '% of workforce',
+          data: [28, 18, 21, 9, 13],
+          backgroundColor: [TEAL, BLUE, PURPLE, ORANGE, TEAL2],
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        ...defaults,
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 }, color: '#6b7280', callback: v => v + '%' }, max: 40 },
+          y: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#374151' } }
+        }
+      }
+    });
+
+    /* Sentiment donut */
+    new Chart(document.getElementById('chartSentiment'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        datasets: [{ data: [52, 28, 20], backgroundColor: [TEAL, GREY, RED], borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: { ...defaults, cutout: '68%', plugins: { legend: { display: false } } }
+    });
+
+    /* Comment themes bar */
+    new Chart(document.getElementById('chartThemes'), {
+      type: 'bar',
+      data: {
+        labels: ['Wellbeing', 'Space', 'Flexibility', 'Technology', 'Collaboration', 'Environment', 'Culture'],
+        datasets: [{
+          label: '% of comments',
+          data: [24, 18, 16, 14, 12, 9, 7],
+          backgroundColor: [PURPLE, TEAL, ORANGE, BLUE, TEAL2, RED, SLATE],
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        ...defaults,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#6b7280' } },
+          y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 }, color: '#6b7280', callback: v => v + '%' }, max: 30 }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPS Intelligence Platform | Dwiti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #2563eb; --accent-light: #eff6ff;
+      --text-primary: #111827; --text-secondary: #6b7280;
+      --border: #e5e7eb; --bg: #ffffff; --bg-soft: #f9fafb;
+      --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+      /* Chart palette — matched to Share of Wallet PDF */
+      --col-purple: #6d28d9;
+      --col-coral:  #f87171;
+      --col-orange: #fb923c;
+      --col-slate:  #94a3b8;
+      --col-green:  #10b981;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text-primary); background: var(--bg); line-height: 1.6; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--text-primary); text-decoration: none; }
+    .nav-back  { text-decoration: none; font-size: 0.88rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .cs-hero {
+      padding: 70px 5% 50px; max-width: 820px; margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-label {
+      display: inline-block; background: var(--accent-light); color: var(--accent);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 1.2rem;
+    }
+    .cs-title   { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .cs-summary { font-size: 1.05rem; color: var(--text-secondary); max-width: 640px; line-height: 1.75; margin-bottom: 1.8rem; }
+    .cs-meta    { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .meta-item  { font-size: 0.85rem; }
+    .meta-label { font-weight: 600; color: var(--text-secondary); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; }
+    .meta-value { color: var(--text-primary); margin-top: 2px; }
+
+    /* ── Content ── */
+    .cs-body { max-width: 820px; margin: 0 auto; padding: 50px 5% 80px; }
+    .cs-body h2 { font-size: 1.4rem; font-weight: 700; margin: 2.8rem 0 0.8rem; color: var(--text-primary); }
+    .cs-body h3 { font-size: 1.05rem; font-weight: 600; margin: 1.8rem 0 0.5rem; color: var(--text-primary); }
+    .cs-body p  { color: var(--text-secondary); font-size: 0.97rem; line-height: 1.8; margin-bottom: 1rem; }
+    .cs-body ul { margin: 0.6rem 0 1rem 1.2rem; }
+    .cs-body ul li { color: var(--text-secondary); font-size: 0.97rem; line-height: 1.75; margin-bottom: 0.4rem; }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--accent-light); border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0; padding: 1.2rem 1.5rem; margin: 1.5rem 0;
+    }
+    .callout p { color: var(--text-primary); font-weight: 500; margin: 0; }
+    .callout-award { background: #fef9c3; border-left-color: #d97706; }
+    .callout-award p { color: #92400e; }
+
+    /* ── Metrics strip ── */
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+    .metric-card  { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem 1.2rem; border-top: 3px solid var(--accent); }
+    .metric-card.purple { border-top-color: #6d28d9; }
+    .metric-card.green  { border-top-color: #10b981; }
+    .metric-card.orange { border-top-color: #fb923c; }
+    .metric-number { font-size: 1.9rem; font-weight: 700; color: var(--accent); }
+    .metric-card.purple .metric-number { color: #6d28d9; }
+    .metric-card.green  .metric-number { color: #10b981; }
+    .metric-card.orange .metric-number { color: #fb923c; }
+    .metric-label  { font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.3rem; line-height: 1.5; }
+
+    /* ── Tech stack ── */
+    .stack-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.8rem 0 1rem; }
+    .stack-tag  { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; padding: 5px 14px; font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); }
+
+    /* ── Nav footer ── */
+    .cs-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 3rem; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-outline { background: transparent; color: var(--text-primary); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    footer { text-align: center; padding: 2rem 5%; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary); }
+
+    /* ════════════════════════════════════════
+       PIPELINE FLOW
+    ════════════════════════════════════════ */
+    .pipeline-wrap {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem 1.5rem; margin: 1.5rem 0;
+    }
+    .pipeline-title {
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 1.4rem; text-align: center;
+    }
+    .pipeline {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: center; gap: 0;
+    }
+    .pipe-step {
+      display: flex; flex-direction: column; align-items: center;
+      background: #fff; border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.9rem 1rem; min-width: 105px; text-align: center;
+      box-shadow: var(--shadow); flex: 0 0 auto;
+    }
+    .pipe-step.highlight { border-color: var(--accent); background: var(--accent-light); }
+    .pipe-icon  { font-size: 1.4rem; margin-bottom: 0.35rem; }
+    .pipe-label { font-size: 0.78rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+    .pipe-sub   { font-size: 0.68rem; color: var(--text-secondary); margin-top: 0.2rem; }
+    .pipe-arrow { font-size: 1.1rem; color: var(--text-secondary); padding: 0 0.4rem; flex: 0 0 auto; align-self: center; }
+
+    /* ════════════════════════════════════════
+       CHARTS
+    ════════════════════════════════════════ */
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; }
+    .chart-card {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem 1.2rem;
+    }
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-card-title {
+      font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--text-secondary); margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    /* Donut centre */
+    .donut-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+    .donut-centre {
+      position: absolute; text-align: center; pointer-events: none;
+    }
+    .donut-centre .big   { font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .donut-centre .small { font-size: 0.68rem; color: var(--text-secondary); margin-top: 3px; }
+
+    /* Legend */
+    .chart-legend {
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem;
+      justify-content: center; margin-top: 0.9rem;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--text-secondary); }
+    .legend-dot  { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* Brand words */
+    .words-row {
+      display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+      margin: 1rem 0 0.4rem;
+    }
+    .word-pill {
+      background: #ede9fe; color: #5b21b6; border-radius: 20px;
+      padding: 5px 14px; font-size: 0.82rem; font-weight: 600;
+    }
+
+    .chart-note {
+      font-size: 0.72rem; color: var(--text-secondary); text-align: center;
+      font-style: italic; margin-top: 0.6rem;
+    }
+
+    /* Benchmark strip */
+    .benchmark-strip {
+      background: var(--bg-soft); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.1rem 1.4rem; margin: 1rem 0;
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center;
+    }
+    .benchmark-strip .label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); flex: 0 0 100%; margin-bottom: 0.2rem; }
+    .benchmark-item { font-size: 0.82rem; color: var(--text-primary); }
+    .benchmark-item strong { color: #6d28d9; }
+    .benchmark-item.highlight { color: var(--accent); font-weight: 700; }
+
+    @media (max-width: 640px) {
+      .cs-meta   { flex-direction: column; gap: 0.8rem; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .chart-grid   { grid-template-columns: 1fr; }
+      .chart-card.full { grid-column: unset; }
+      .pipeline { gap: 0.4rem; }
+      .pipe-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">Dwiti</a>
+    <a href="../index.html" class="nav-back">← Back to portfolio</a>
+  </nav>
+
+  <div class="cs-hero">
+    <span class="cs-label">Case Study · Facilities Management</span>
+    <h1 class="cs-title">NPS Intelligence Platform &amp; Action Planning</h1>
+    <p class="cs-summary">
+      An end-to-end analytics platform that transformed Net Promoter Score survey data into
+      operational intelligence across 411 accounts, combining Power BI reporting with a
+      GPT-4o summarisation engine on Microsoft Fabric to surface actionable feedback at scale,
+      driving the business to an NPS of 63 in the Excellent B2B category.
+    </p>
+    <div class="cs-meta">
+      <div class="meta-item">
+        <div class="meta-label">Industry</div>
+        <div class="meta-value">Integrated Facilities Management</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Stack</div>
+        <div class="meta-value">Python · Microsoft Fabric · Azure OpenAI · Power BI</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Outcome</div>
+        <div class="meta-value">Award-winning production platform</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-body">
+
+    <div class="callout callout-award">
+      <p>🏆 This platform received an internal award for innovation in data-driven service improvement.</p>
+    </div>
+
+    <h2>The Problem</h2>
+    <p>
+      The business was collecting thousands of NPS survey responses per year across multiple
+      service lines and divisions: Technical Services, Business Services, Communities, and Projects.
+      The data sat in siloed spreadsheets. Operational managers had no way to connect a customer's
+      score to which site, contract, or team was responsible, and no scalable way to act on the
+      verbatim feedback buried in open-text comments.
+    </p>
+    <p>
+      The core questions were: <em>Which contracts are at risk? Which divisions drive the most
+      detractors? And what are customers actually saying, at scale, contract by contract?</em>
+    </p>
+
+    <h2>Approach</h2>
+
+    <h3>1. Data Pipeline &amp; Integration</h3>
+    <p>
+      Survey responses were ingested from the survey platform and landed in a Microsoft Fabric
+      Lakehouse. PySpark orchestrated the data processing, joining each survey response to the
+      operational data model, mapping each record to an account, division, SAM, managing director,
+      and service line.
+    </p>
+
+    <!-- ── PIPELINE DIAGRAM ── -->
+    <div class="pipeline-wrap">
+      <div class="pipeline-title">End-to-End Data Pipeline Architecture</div>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-icon">📋</div>
+          <div class="pipe-label">Survey Platform</div>
+          <div class="pipe-sub">API ingestion</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">🗄️</div>
+          <div class="pipe-label">Fabric Lakehouse</div>
+          <div class="pipe-sub">Raw + output tables</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">⚡</div>
+          <div class="pipe-label">PySpark</div>
+          <div class="pipe-sub">Group &amp; transform</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight">
+          <div class="pipe-icon">🧠</div>
+          <div class="pipe-label">GPT-4o</div>
+          <div class="pipe-sub">Azure OpenAI API</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">📊</div>
+          <div class="pipe-label">Power BI Semantic Model</div>
+          <div class="pipe-sub">RLS · DAX</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">👁️</div>
+          <div class="pipe-label">NPS Dashboard</div>
+          <div class="pipe-sub">9 report tabs</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>2. Row Level Security</h3>
+    <p>
+      RLS was applied at two levels. At the data layer, an Azure Data group structure was used
+      to restrict access so that sensitive account content could not be viewed across the
+      organisation. Only users assigned to a given account group could access the underlying
+      survey data, action records, and verbatim comments for that account. This ensured that
+      commercially sensitive client feedback never surfaced in the wrong hands.
+    </p>
+    <p>
+      In the Action Planning module, a second layer of account-level RLS was applied directly
+      in Power BI. Each account manager could only see the action plan status, progress, and
+      client feedback summary for their own accounts. A managing director or regional director
+      could see across their portfolio, but an individual SAM had no visibility into peers'
+      accounts. This hierarchy was defined once in the semantic model and automatically applied
+      across every page of the dashboard.
+    </p>
+
+    <h3>3. GPT-4o Verbatim Summarisation</h3>
+    <p>
+      Open-text comments from 1,109 survey responses were processed through a GPT-4o summarisation
+      pipeline built on Microsoft Fabric. Rather than reading comments manually, the pipeline
+      grouped comments by contract using PySpark, then called the Azure OpenAI API (GPT-4o) with
+      carefully engineered system and user prompts.
+    </p>
+    <p>
+      The system prompt framed the model as a business analyst tasked with extracting plain-text
+      insights. The user prompt constrained output to no more than 5 bullet points per contract,
+      covering key themes, common issues, positive mentions, and actionable trends. Temperature
+      was set to 0 to ensure deterministic, consistent output across all contracts. The summarised
+      results were written back to the Lakehouse as a table and surfaced directly in Power BI,
+      meaning account managers could read a concise AI summary per client without any data science
+      intermediation.
+    </p>
+
+    <h3>4. Action Planning Dashboard</h3>
+    <p>
+      Beyond the NPS score itself, the platform included a full Action Planning module, tracking
+      877 action plans across 279 accounts (68% of the portfolio). Each action was tagged with a
+      key theme, owner, status, and target completion date, giving leadership real-time visibility
+      into what was being done about the feedback, not just what the feedback was.
+    </p>
+
+    <!-- ── CHARTS ── -->
+    <div class="chart-grid">
+
+      <!-- Donut: NPS distribution -->
+      <div class="chart-card">
+        <div class="chart-card-title">NPS Score Distribution 2025</div>
+        <div class="donut-wrap">
+          <canvas id="chartDonut" height="210"></canvas>
+          <div class="donut-centre">
+            <div class="big">63</div>
+            <div class="small">NPS Score</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#6d28d9"></div>Promoters 71%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Passives 22%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Detractors 7%</div>
+        </div>
+        <div class="chart-note">1,109 responses · 56% survey response rate</div>
+      </div>
+
+      <!-- Bar: NPS by division -->
+      <div class="chart-card">
+        <div class="chart-card-title">NPS Score by Division 2025</div>
+        <canvas id="chartDivision" height="210"></canvas>
+      </div>
+
+      <!-- Full-width: NPS trend over time -->
+      <div class="chart-card full">
+        <div class="chart-card-title">NPS Score: 7-Year Journey (2018 to 2025)</div>
+        <canvas id="chartTrend" height="130"></canvas>
+        <div class="chart-note">From detractor territory in 2018 to Excellent B2B category by 2025</div>
+      </div>
+
+      <!-- Full-width: Action key themes -->
+      <div class="chart-card full">
+        <div class="chart-card-title">Action Plan Key Themes: % of 877 Actions</div>
+        <canvas id="chartThemes" height="140"></canvas>
+        <div class="chart-note">877 total action plans · 279 accounts · 68% portfolio coverage</div>
+      </div>
+
+    </div>
+
+    <!-- Top words -->
+    <p style="font-size:0.82rem; font-weight:600; color:var(--text-secondary); margin: 1.5rem 0 0; text-transform: uppercase; letter-spacing: 0.06em;">Top 3 words customers used to describe the business</p>
+    <div class="words-row">
+      <span class="word-pill">1. Collaborative</span>
+      <span class="word-pill">2. Professional</span>
+      <span class="word-pill">3. Reliable</span>
+    </div>
+
+    <h2>Key Metrics &amp; Impact</h2>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-number">63</div>
+        <div class="metric-label">NPS score in the Excellent B2B category, up from -10 in 2018</div>
+      </div>
+      <div class="metric-card purple">
+        <div class="metric-number">1,109</div>
+        <div class="metric-label">Survey responses processed &amp; summarised via GPT-4o</div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-number">877</div>
+        <div class="metric-label">Action plans tracked across 279 accounts in real time</div>
+      </div>
+      <div class="metric-card orange">
+        <div class="metric-number">68%</div>
+        <div class="metric-label">Of accounts had active action plans in place</div>
+      </div>
+    </div>
+
+    <h2>What I Learned</h2>
+    <p>
+      Getting the data model right before building the dashboard saved weeks of rework. The Row
+      Level Security structure, once embedded in the semantic model, made it trivial to expand to
+      new divisions and managing directors, which proved critical as the scope grew mid-project.
+    </p>
+    <p>
+      On the GPT side, engineering the prompts carefully was the real unlock. Setting temperature
+      to 0 ensured every contract summary followed a consistent format, something that would have
+      been impossible with higher randomness settings. Keeping the system prompt focused on a
+      business analyst persona, and constraining the user prompt to five or fewer plain-text
+      bullets, meant the output landed directly in Power BI without any post-processing. The
+      account managers didn't need to know how it worked; they just had a useful summary per client.
+    </p>
+    <p>
+      The Action Planning module was the part that required the most stakeholder alignment.
+      Capturing action owner, theme, status, and date in a structured format rather than free
+      text was what made the dashboard genuinely useful rather than just a reporting view.
+    </p>
+
+    <h2>Tech Stack</h2>
+    <div class="stack-list">
+      <span class="stack-tag">Python</span>
+      <span class="stack-tag">PySpark</span>
+      <span class="stack-tag">Microsoft Fabric</span>
+      <span class="stack-tag">Azure OpenAI (GPT-4o)</span>
+      <span class="stack-tag">Prompt Engineering</span>
+      <span class="stack-tag">Power BI</span>
+      <span class="stack-tag">DAX</span>
+      <span class="stack-tag">Row Level Security</span>
+      <span class="stack-tag">SQL</span>
+    </div>
+
+    <p style="font-size:0.82rem; color: var(--text-secondary); margin-top: 1.5rem;">
+      <em>Note: Account and client names have been removed to protect confidentiality. All metrics
+      and insights are based on real project work.</em>
+    </p>
+
+    <div class="cs-nav">
+      <a href="../index.html" class="btn btn-outline">← All projects</a>
+      <a href="energy-forecasting.html" class="btn btn-primary">Next project →</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Dwiti · <a href="../index.html" style="color: var(--accent); text-decoration: none;">Portfolio</a></p>
+  </footer>
+
+  <!-- ══════════════════════════════════════
+       CHARTS
+  ══════════════════════════════════════ -->
+  <script>
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#6b7280';
+
+    const PURPLE = '#6d28d9';
+    const CORAL  = '#f87171';
+    const ORANGE = '#fb923c';
+    const SLATE  = '#94a3b8';
+    const BLUE   = '#2563eb';
+
+    // ── 1. Donut — Real NPS distribution ──
+    new Chart(document.getElementById('chartDonut'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Promoters (9–10)', 'Passives (7–8)', 'Detractors (0–6)'],
+        datasets: [{
+          data: [71, 22, 7],
+          backgroundColor: [PURPLE, ORANGE, CORAL],
+          borderWidth: 0,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        cutout: '68%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` }
+          }
+        }
+      }
+    });
+
+    // ── 2. Horizontal bar — NPS by Division (real 2025 scores) ──
+    new Chart(document.getElementById('chartDivision'), {
+      type: 'bar',
+      data: {
+        labels: ['Business Services', 'Communities', 'Projects', 'Technical Services'],
+        datasets: [{
+          label: 'NPS Score 2025',
+          data: [80, 71, 60, 11],
+          backgroundColor: [PURPLE, PURPLE, PURPLE, ORANGE],
+          borderRadius: 4,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: { label: ctx => ` NPS 2025: +${ctx.raw}` }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#f3f4f6' },
+            ticks: { font: { size: 11 } },
+            min: 0, max: 100,
+            title: { display: true, text: 'NPS Score', font: { size: 11 } }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // ── 3. Line — NPS trend 2018–2025 (real data) ──
+    new Chart(document.getElementById('chartTrend'), {
+      type: 'line',
+      data: {
+        labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+          label: 'Overall NPS',
+          data: [-10, 14, 30, 36, 42, 42, 60, 63],
+          borderColor: PURPLE,
+          backgroundColor: 'rgba(109,40,217,0.08)',
+          borderWidth: 2.5,
+          pointBackgroundColor: PURPLE,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: { label: ctx => ` NPS: ${ctx.raw > 0 ? '+' : ''}${ctx.raw}` }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: {
+            grid: { color: '#f3f4f6' },
+            ticks: { font: { size: 11 } },
+            title: { display: true, text: 'NPS Score', font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // ── 4. Bar — Action Plan Key Themes (real data) ──
+    new Chart(document.getElementById('chartThemes'), {
+      type: 'bar',
+      data: {
+        labels: ['Overall Account', 'Service Delivery', 'Customer Priorities', 'Relationship', 'Communication', 'Technology / Innovation', 'Energy / Sustainability'],
+        datasets: [{
+          label: '% of Actions',
+          data: [43, 16, 12, 9, 7, 5, 4],
+          backgroundColor: [PURPLE, PURPLE, PURPLE, PURPLE, PURPLE, ORANGE, ORANGE],
+          borderRadius: 4,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: { label: ctx => ` ${ctx.raw}% of actions` }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: {
+            grid: { color: '#f3f4f6' },
+            ticks: {
+              font: { size: 11 },
+              callback: v => v + '%'
+            },
+            max: 50
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
