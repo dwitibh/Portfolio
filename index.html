@@ -76,12 +76,18 @@
     }
     .photo-inner {
       width: 100%; height: 100%; border-radius: 50%;
-      background: var(--bg-soft);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #fff;
       overflow: hidden;
+      display: block;
     }
     .photo-inner img {
-      width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      transform: scale(1.25);
+      transform-origin: center 30%;
+      display: block;
+      border-radius: 50%;
     }
     .photo-placeholder-icon { display: none; }
     .photo-placeholder-text { display: none; }
@@ -312,19 +318,58 @@
       <div class="projects-grid">
 
         <!-- Case Study 1: NPS Platform -->
-        <a href="https://gamma.app/docs/NPS-Analytics-Dashboard-Action-Planning-g328tn6lfpcumgg" target="_blank" class="project-card">
-          <div class="card-type">Case Study</div>
+        <a href="case-studies/nps-platform.html" class="project-card">
+          <div class="card-type">Case Study · Facilities Management</div>
           <div class="card-title">NPS Intelligence Platform</div>
           <div class="card-desc">
             Award-winning production platform that transformed raw customer satisfaction data
             into actionable operational intelligence, connecting 50k+ survey responses
-            to service outcomes across multiple service lines.
+            to service outcomes across multiple service lines using Azure OpenAI and Microsoft Fabric.
           </div>
           <div class="card-tags">
             <span class="card-tag">NLP</span>
-            <span class="card-tag">Azure</span>
+            <span class="card-tag">Azure OpenAI</span>
             <span class="card-tag">Power BI</span>
             <span class="card-tag">Python</span>
+          </div>
+          <div class="card-footer">Read case study →</div>
+        </a>
+
+        <!-- Case Study 2: Share of Wallet -->
+        <a href="case-studies/share-of-wallet.html" class="project-card">
+          <div class="card-type">Case Study · Commercial Analytics</div>
+          <div class="card-title">Share of Wallet Analysis</div>
+          <div class="card-desc">
+            Commercial analytics model that estimates client spend potential versus actual
+            captured revenue across a large contract portfolio. Surfaced white-space
+            opportunities and prioritised accounts for growth, directly informing
+            sales strategy and account management decisions.
+          </div>
+          <div class="card-tags">
+            <span class="card-tag">Power BI</span>
+            <span class="card-tag">Commercial Analytics</span>
+            <span class="card-tag">DAX</span>
+            <span class="card-tag">Revenue Modelling</span>
+          </div>
+          <div class="card-footer">Read case study →</div>
+        </a>
+
+        <!-- Case Study 3: Workplace Experience Analytics -->
+        <a href="case-studies/workplace-survey.html" class="project-card">
+          <div class="card-type">Case Study · Workplace Analytics</div>
+          <div class="card-title">Workplace Experience Analytics Platform</div>
+          <div class="card-desc">
+            Client-facing platform that transforms 1,000+ workplace survey responses into
+            strategic workforce intelligence: combining demographic segmentation, 15-persona
+            behavioural classification (Power Query), and Python NLP comment analysis to help
+            consultants identify workplace issues and recommend targeted interventions.
+          </div>
+          <div class="card-tags">
+            <span class="card-tag">Microsoft Fabric</span>
+            <span class="card-tag">Power BI</span>
+            <span class="card-tag">Python</span>
+            <span class="card-tag">Persona Modelling</span>
+            <span class="card-tag">NLP</span>
           </div>
           <div class="card-footer">Read case study →</div>
         </a>
