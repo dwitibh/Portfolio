@@ -181,7 +181,7 @@
 <body>
 
   <nav>
-    <a href="../index.html" class="nav-logo">Dwiti</a>
+    <a href="index.html" class="nav-logo">Dwiti</a>
     <div class="nav-links">
       <a href="#problem" class="nav-link">Problem</a>
       <a href="#approach" class="nav-link">Approach</a>
@@ -189,7 +189,7 @@
       <a href="#charts" class="nav-link">Analysis</a>
       <a href="#learnings" class="nav-link">Learnings</a>
     </div>
-    <a href="../index.html" class="nav-back">← Back to portfolio</a>
+    <a href="index.html" class="nav-back">← Back to portfolio</a>
   </nav>
 
   <!-- ═══════════════ HERO ═══════════════ -->
@@ -198,7 +198,7 @@
     <h1 class="cs-title">Share of Wallet Intelligence Platform</h1>
     <p class="cs-summary">
       A strategic analytics platform that maps service line penetration across the company's top
-      30–40 accounts — quantifying how much of each client's total CapEx and OpEx budget the
+      30–40 accounts, quantifying how much of each client's total CapEx and OpEx budget the
       business captures versus competitors, and surfacing prioritised growth opportunities across
       15 service lines in a single, filterable Power BI view.
     </p>
@@ -209,7 +209,7 @@
       </div>
       <div class="meta-item">
         <div class="meta-label">Stack</div>
-        <div class="meta-value">Power BI · DAX · SQL · Account Planning System</div>
+        <div class="meta-value">Power BI · DAX · Salesforce · SQL</div>
       </div>
       <div class="meta-item">
         <div class="meta-label">Accounts Analysed</div>
@@ -237,7 +237,7 @@
       </div>
       <div class="kpi-card purple">
         <div class="kpi-number">33%</div>
-        <div class="kpi-label">Average share of wallet captured — significant headroom to grow</div>
+        <div class="kpi-label">Average share of wallet captured, significant headroom to grow</div>
       </div>
       <div class="kpi-card green">
         <div class="kpi-number">0</div>
@@ -253,18 +253,18 @@
     <h2 id="problem">The Problem</h2>
 
     <div class="callout">
-      <p>📌 Core question from senior leadership: <em>"We know we're in these accounts — but how much of their total budget do we actually own? And who has the rest?"</em></p>
+      <p>📌 Core question from senior leadership: <em>"We know we're in these accounts, but how much of their total budget do we actually own? And who has the rest?"</em></p>
     </div>
 
     <p>
       The business had deep relationships with its most strategic accounts but was operating
       without a clear picture of its competitive position within each one. Revenue was being
-      reported by contract — but no tool showed what proportion of the client's <em>total addressable
+      reported by contract, but no tool showed what proportion of the client's <em>total addressable
       spend</em> those contracts represented.
     </p>
     <p>
       The clearest illustration of the gap: one major airport client had a £300 million annual
-      projects budget. The company was delivering £100 million of that work — a 33% share. The
+      projects budget. The company was delivering £100 million of that work, a 33% share. The
       remaining £200 million was flowing to competitors across M&amp;E, compliance, and other
       project categories the company was already positioned to serve. That gap was both the
       problem and the opportunity.
@@ -272,7 +272,7 @@
     <p>
       An existing whitespace report covered the top 250 accounts at a macro level, but it lacked
       the service line granularity and CapEx/OpEx segmentation needed to drive strategic account
-      conversations. A new, purpose-built analytical layer was required — one that could answer
+      conversations. A new, purpose-built analytical layer was required, one that could answer
       not just <em>what</em> the company delivered, but <em>how much more it could win</em> within
       each relationship.
     </p>
@@ -280,8 +280,8 @@
     <h3>Why CapEx vs OpEx Matters</h3>
     <p>
       In facilities management, these two spend pools behave very differently. <strong>OpEx
-      (Operational Expenditure)</strong> covers ongoing service contracts — cleaning, security,
-      maintenance — typically multi-year agreements with lower churn. <strong>CapEx (Capital
+      (Operational Expenditure)</strong> covers ongoing service contracts, cleaning, security,
+      maintenance, typically multi-year agreements with lower churn. <strong>CapEx (Capital
       Expenditure)</strong> covers major projects: fit-outs, M&amp;E installations, compliance
       upgrades, smart building retrofits. CapEx decisions are made in planning cycles, involve
       different procurement teams, and represent significantly larger individual contract values.
@@ -292,14 +292,14 @@
     <!-- CHARTS: Wallet split + CapEx gap -->
     <div id="charts" class="chart-row">
       <div class="chart-section">
-        <div class="chart-title">Share of Wallet — Illustrative Account Example</div>
+        <div class="chart-title">Share of Wallet: Illustrative Account Example</div>
         <div class="chart-subtitle">Total client projects budget: £300M · Our share: £100M (33%)</div>
         <div class="chart-wrap" style="max-width:280px; margin:0 auto;">
           <canvas id="walletDonut"></canvas>
         </div>
       </div>
       <div class="chart-section">
-        <div class="chart-title">CapEx Gap Analysis — Top 8 Accounts</div>
+        <div class="chart-title">CapEx Gap Analysis: Top 8 Accounts</div>
         <div class="chart-subtitle">Our captured CapEx vs. estimated competitor share (£M, illustrative)</div>
         <div class="chart-wrap">
           <canvas id="capexBar" height="230"></canvas>
@@ -311,21 +311,24 @@
     <!-- APPROACH -->
     <h2 id="approach">Approach</h2>
 
-    <h3>1. Embedding Data Collection Inside Account Planning</h3>
+    <h3>1. Salesforce as the Primary Data Source</h3>
     <p>
-      A critical early design decision was where data would come from. Rather than building a
-      separate data-entry tool, the share of wallet layer was embedded directly inside the
-      existing account planning system. When account managers created or updated an account plan,
+      A critical early design decision was where data would come from. The primary data source
+      was <strong>Salesforce CRM</strong>: rather than building a separate data-entry tool,
+      the share of wallet layer was embedded directly inside the existing Salesforce account
+      planning workflow. When account managers created or updated an account plan in Salesforce,
       they were already completing the data that powered the analysis.
     </p>
     <p>
       This solved the adoption problem before it started. The data entry was not an additional
-      task — it was part of the workflow account managers were already doing. Each of the 15
-      core service lines was surfaced as a structured input within the account plan, capturing
-      delivery status, contract value, procurement type, and the client's appetite for change.
+      task, it was part of the Salesforce workflow account managers were already doing. Each
+      of the 15 core service lines was surfaced as a structured input within the Salesforce
+      account plan, capturing delivery status, contract value, procurement type, and the
+      client's appetite for change. Salesforce served as the single source of truth for all
+      account-level data, feeding directly into the Power BI semantic model downstream.
     </p>
 
-    <h3>2. The 15 Service Lines — and Why Taxonomy Matters</h3>
+    <h3>2. The 15 Service Lines: and Why Taxonomy Matters</h3>
     <p>
       The platform mapped across all 15 core service lines in the business. One of the most
       important pieces of groundwork was establishing a clean, agreed taxonomy before any
@@ -335,19 +338,19 @@
     <p>
       In commercial conversations, IFM is often listed alongside service lines, which causes
       misclassification. An account might use the IFM delivery model (one provider managing
-      multiple services) but not have all services integrated — for example, a major pharma
+      multiple services) but not have all services integrated, for example, a major pharma
       client might use IFM for facilities but procure security separately. Treating IFM as
       a service line would mask the real competitive picture.
     </p>
 
     <!-- SERVICE LINE BUBBLE MAP -->
     <div class="bubble-section">
-      <div class="chart-title" style="margin-bottom:0.3rem;">Illustrative Service Line Map — Single Account View</div>
+      <div class="chart-title" style="margin-bottom:0.3rem;">Illustrative Service Line Map: Single Account View</div>
       <div class="chart-subtitle" style="margin-bottom:1rem;">Each bubble represents one service line. Colour indicates our current position within this account.</div>
       <div class="bubble-legend">
         <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div> Delivering (with annual £ value)</div>
         <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div> Opportunity in pipeline</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> Gap — not yet active</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#d1d5db;"></div> Gap, not yet active</div>
       </div>
       <div class="bubble-grid">
         <span class="bubble b-delivered">Security &amp; Guarding <span class="b-value">£30M</span></span>
@@ -368,17 +371,17 @@
       </div>
     </div>
 
-    <h3>3. RAG Scoring — Appetite for Change as the Priority Signal</h3>
+    <h3>3. RAG Scoring: Appetite for Change as the Priority Signal</h3>
     <p>
       For each service line entry, account managers rated the client's <em>appetite for change</em>
-      — their openness to switching providers or adding new services — on a High / Medium / Low
+     , their openness to switching providers or adding new services, on a High / Medium / Low
       scale. This single field drove the RAG (Red / Amber / Green) colour coding across the
       platform, turning qualitative relationship intelligence into a prioritisation engine.
     </p>
     <p>
       A high-value service line gap with a High appetite for change became an immediate commercial
       target. A line the company was already delivering with a Low appetite flagged a retention
-      risk — the client was unlikely to switch, but any service failure would be amplified.
+      risk, the client was unlikely to switch, but any service failure would be amplified.
     </p>
 
     <table class="data-table">
@@ -399,7 +402,7 @@
           <td>£30M</td>
           <td><span class="tag">Single Service</span></td>
           <td>Medium</td>
-          <td><span class="rag rag-amber">Amber — protect</span></td>
+          <td><span class="rag rag-amber">Amber: protect</span></td>
         </tr>
         <tr>
           <td>Projects (CapEx)</td>
@@ -407,15 +410,15 @@
           <td>£0 (est. £45M available)</td>
           <td><span class="tag">Multi Service</span></td>
           <td>High</td>
-          <td><span class="rag rag-green">Green — pursue</span></td>
+          <td><span class="rag rag-green">Green: pursue</span></td>
         </tr>
         <tr>
           <td>Smart Workplace</td>
           <td>⬜ Gap</td>
-          <td>—</td>
-          <td>—</td>
+          <td>N/A</td>
+          <td>N/A</td>
           <td>Low</td>
-          <td><span class="rag rag-red">Red — monitor</span></td>
+          <td><span class="rag rag-red">Red: monitor</span></td>
         </tr>
         <tr>
           <td>Power &amp; Grid</td>
@@ -423,7 +426,7 @@
           <td>£0 (est. £20M available)</td>
           <td><span class="tag">Single Service</span></td>
           <td>High</td>
-          <td><span class="rag rag-green">Green — pursue</span></td>
+          <td><span class="rag rag-green">Green: pursue</span></td>
         </tr>
         <tr>
           <td>Catering</td>
@@ -431,25 +434,25 @@
           <td>£0 (est. £12M available)</td>
           <td><span class="tag">Multi Service</span></td>
           <td>Medium</td>
-          <td><span class="rag rag-amber">Amber — qualify</span></td>
+          <td><span class="rag rag-amber">Amber: qualify</span></td>
         </tr>
       </tbody>
     </table>
-    <p class="note">Sample rows for illustration — data is synthetic.</p>
+    <p class="note">Sample rows for illustration, data is synthetic.</p>
 
     <!-- DATA MODEL -->
     <h2 id="data-model">Data Model &amp; Architecture</h2>
 
     <div class="callout teal">
-      <p>🏗 The platform was designed as an analytical layer on top of account planning — not a standalone system. This preserved the integrity of existing workflows while unlocking new strategic capability.</p>
+      <p>🏗 The platform was designed as an analytical layer on top of account planning, not a standalone system. This preserved the integrity of existing workflows while unlocking new strategic capability.</p>
     </div>
 
     <div class="arch-diagram">
       <div class="arch-title">Data Flow Architecture</div>
       <div class="arch-flow">
         <div class="arch-node">
-          <div class="arch-node-icon">📋</div>
-          <div class="arch-node-label">Account Planning System</div>
+          <div class="arch-node-icon">☁️</div>
+          <div class="arch-node-label">Salesforce CRM</div>
           <div class="arch-node-sub">Account mgr input<br/>15 service line fields</div>
         </div>
         <div class="arch-arrow">→</div>
@@ -474,7 +477,7 @@
         <div class="arch-node">
           <div class="arch-node-icon">📈</div>
           <div class="arch-node-label">Existing Whitespace Report</div>
-          <div class="arch-node-sub">Top 250 accounts<br/>Untouched — extended</div>
+          <div class="arch-node-sub">Top 250 accounts<br/>Untouched, extended</div>
         </div>
       </div>
     </div>
@@ -483,8 +486,8 @@
     <p>
       The Power BI semantic model was built around four core dimension tables, with
       <code>FactServiceLineEntry</code> as the central fact table that joined them all.
-      This structure allowed the dashboard to slice any metric — wallet share, opportunity
-      value, RAG distribution — across any combination of account, service line, sector, and time.
+      This structure allowed the dashboard to slice any metric, wallet share, opportunity
+      value, RAG distribution, across any combination of account, service line, sector, and time.
     </p>
 
     <table class="data-table">
@@ -496,7 +499,7 @@
           <td><code>DimAccount</code></td>
           <td>Dimension</td>
           <td>AccountID, Name, Sector, TotalCapEx, TotalOpEx</td>
-          <td>Master account register — top 40 strategic accounts</td>
+          <td>Master account register, top 40 strategic accounts</td>
         </tr>
         <tr>
           <td><code>DimServiceLine</code></td>
@@ -514,13 +517,13 @@
           <td><code>DimSector</code></td>
           <td>Dimension</td>
           <td>SectorID, Name, Type (Business / Tech / Projects)</td>
-          <td>Sector filter — enables cross-sector benchmarking</td>
+          <td>Sector filter, enables cross-sector benchmarking</td>
         </tr>
         <tr>
           <td><code>FactServiceLineEntry</code></td>
           <td>Fact</td>
           <td>AccountID, ServiceLineID, Status, AnnualValue, AppetiteScore, RAGStatus</td>
-          <td>Central fact — one row per account per service line (600 rows)</td>
+          <td>Central fact, one row per account per service line (600 rows)</td>
         </tr>
       </tbody>
     </table>
@@ -530,9 +533,9 @@
       Three core DAX measures drove the most important calculations across the dashboard:
     </p>
     <ul>
-      <li><strong>Share of Wallet %</strong> — <code>[Total Delivered Value] / [Total Client Budget]</code> per account, segmented by CapEx and OpEx pools separately</li>
-      <li><strong>Opportunity Gap Value</strong> — sum of estimated available budget on service lines flagged as Opportunity or Gap with High/Medium appetite for change</li>
-      <li><strong>RAG Priority Score</strong> — weighted composite of status, appetite, and contract end date proximity, used to rank accounts and service lines for commercial focus</li>
+      <li><strong>Share of Wallet %</strong>: <code>[Total Delivered Value] / [Total Client Budget]</code> per account, segmented by CapEx and OpEx pools separately</li>
+      <li><strong>Opportunity Gap Value</strong>: sum of estimated available budget on service lines flagged as Opportunity or Gap with High/Medium appetite for change</li>
+      <li><strong>RAG Priority Score</strong>: weighted composite of status, appetite, and contract end date proximity, used to rank accounts and service lines for commercial focus</li>
     </ul>
 
     <!-- ANALYSIS CHARTS -->
@@ -542,12 +545,12 @@
     <p>
       Mapping all 15 service lines across 40 accounts revealed significant unevenness in
       penetration. Core FM services (cleaning, security) showed high coverage. Projects-related
-      lines — M&amp;E, power, compliance sub-services — were delivered in fewer accounts, despite
+      lines, M&amp;E, power, compliance sub-services, were delivered in fewer accounts, despite
       those accounts having substantial CapEx budgets in those categories.
     </p>
 
     <div class="chart-section">
-      <div class="chart-title">Service Line Penetration — % of Top 40 Accounts Where Delivered</div>
+      <div class="chart-title">Service Line Penetration: % of Top 40 Accounts Where Delivered</div>
       <div class="chart-subtitle">Lower penetration lines represent the highest strategic growth opportunity</div>
       <div class="chart-wrap">
         <canvas id="penetrationBar" height="340"></canvas>
@@ -575,46 +578,46 @@
     <p>
       Filtering by sector exposed a pattern that wasn't visible in aggregate: the company's
       projects penetration in the Tech sector was significantly lower than in Infrastructure
-      and Government accounts — despite Tech accounts having the highest average CapEx budgets.
+      and Government accounts, despite Tech accounts having the highest average CapEx budgets.
       This insight directly shaped where commercial teams prioritised resource in the next
       planning cycle.
     </p>
     <p>
-      The sector filter also revealed that Smart Workplace and Power &amp; Grid — both newer
-      service lines — showed the highest appetite for change scores in the Tech and Finance
+      The sector filter also revealed that Smart Workplace and Power &amp; Grid, both newer
+      service lines, showed the highest appetite for change scores in the Tech and Finance
       sectors, making them priority pursuit categories despite low current penetration.
     </p>
 
     <div class="callout amber">
-      <p>⚡ Key finding: the £183M identified opportunity was not evenly distributed — 68% of it was concentrated in just 8 accounts, all of which had High appetite for change scores on at least one major service line.</p>
+      <p>⚡ Key finding: the £183M identified opportunity was not evenly distributed, 68% of it was concentrated in just 8 accounts, all of which had High appetite for change scores on at least one major service line.</p>
     </div>
 
     <!-- LEARNINGS -->
     <h2 id="learnings">What I Learned</h2>
 
-    <h3>Taxonomy is the foundation — get it right before you build</h3>
+    <h3>Taxonomy is the foundation: get it right before you build</h3>
     <p>
       The most important work happened before a single DAX measure was written. Establishing
-      a clean, agreed service line taxonomy — and enforcing the IFM-as-delivery-model
-      distinction — changed how several key accounts were classified. If left uncorrected,
+      a clean, agreed service line taxonomy, and enforcing the IFM-as-delivery-model
+      distinction, changed how several key accounts were classified. If left uncorrected,
       the misclassification would have materially skewed the competitive analysis for at least
       six accounts and understated opportunity in CapEx categories by a significant margin.
     </p>
 
-    <h3>Embedding data entry in existing workflows is an adoption strategy</h3>
+    <h3>Embedding data entry in Salesforce is an adoption strategy</h3>
     <p>
       Asking people to populate a separate system is a common failure mode for analytics
-      platforms. By surfacing the data collection inside the account planning workflow
-      account managers were already using, the platform bypassed the adoption problem
-      entirely. The data improved as a by-product of normal work rather than requiring
-      a separate effort to maintain.
+      platforms. By surfacing the data collection inside the Salesforce account planning
+      workflow that account managers were already using every day, the platform bypassed
+      the adoption problem entirely. The data improved as a by-product of normal Salesforce
+      activity rather than requiring a separate effort to maintain.
     </p>
 
     <h3>Designing for extension, not replacement, builds trust</h3>
     <p>
       The existing whitespace report was a trusted, widely-used tool. The instinct might
       have been to replace it with the new, more powerful system. Instead, the share of
-      wallet platform was built to sit alongside it — extending capability without
+      wallet platform was built to sit alongside it, extending capability without
       disrupting what already worked. This preserved stakeholder trust and meant the new
       layer was embraced rather than resisted.
     </p>
@@ -622,7 +625,7 @@
     <h3>Appetite for change is a better signal than contract size</h3>
     <p>
       The most commercially useful insight the platform generated wasn't a revenue number
-      — it was the combination of opportunity size with the client's appetite for change.
+     , it was the combination of opportunity size with the client's appetite for change.
       A £20M gap in an account with low appetite is a long-term play. A £5M gap in an
       account actively looking to change providers is a this-quarter conversation. The
       RAG scoring logic operationalised that distinction at scale across all 40 accounts.
@@ -634,7 +637,7 @@
       <span class="stack-tag">Power BI</span>
       <span class="stack-tag">DAX</span>
       <span class="stack-tag">SQL</span>
-      <span class="stack-tag">Account Planning System</span>
+      <span class="stack-tag">Salesforce CRM</span>
       <span class="stack-tag">Dimensional Modelling</span>
       <span class="stack-tag">Excel</span>
       <span class="stack-tag">RAG Scoring Logic</span>
@@ -647,14 +650,14 @@
     </p>
 
     <div class="cs-nav">
-      <a href="../index.html" class="btn btn-outline">← All projects</a>
+      <a href="index.html" class="btn btn-outline">← All projects</a>
       <a href="nps-platform.html" class="btn btn-primary">Next project →</a>
     </div>
 
   </div>
 
   <footer>
-    <p>© 2026 Dwiti · <a href="../index.html" style="color: var(--accent); text-decoration: none;">Portfolio</a></p>
+    <p>© 2026 Dwiti · <a href="index.html" style="color: var(--accent); text-decoration: none;">Portfolio</a></p>
   </footer>
 
   <!-- ═══════════════ CHARTS JS ═══════════════ -->
@@ -694,7 +697,7 @@
               label: ctx => {
                 const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
                 const pct = ((ctx.raw / total) * 100).toFixed(0);
-                return ` £${ctx.raw}M — ${pct}% share`;
+                return ` £${ctx.raw}M, ${pct}% share`;
               }
             }
           }
