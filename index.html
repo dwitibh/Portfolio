@@ -244,6 +244,11 @@
     .card-footer a { color: var(--teal-dark); text-decoration: none; }
     .card-footer a:hover { text-decoration: underline; }
 
+    /* Whole-card click for DS cards: main link stretches over the card, secondary links stay on top */
+    .project-card { position: relative; }
+    .card-main-link::after { content: ''; position: absolute; inset: 0; }
+    .card-footer a { position: relative; z-index: 1; }
+
     #bi-projects { background: var(--bg); }
     #ds-projects { background: var(--bg-soft); }
 
@@ -503,7 +508,4 @@
         <!-- Share of Wallet -->
         <a href="share-of-wallet.html" class="project-card">
           <span class="card-thumb">
-            <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Share of Wallet bubble analysis">
-              <rect width="480" height="270" fill="#0d2438"/>
-              <line x1="50" y1="225" x2="450" y2="225" stroke="#2a4a66" stroke-width="1.5"/>
-              <line x1="50" y1="225" x2="50" y2="25
+            <svg viewBox="0 0 480 270" xmlns="http://www.w3.o
