@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supermetrics to Fabric Migration | Dwiti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #2563eb; --accent-light: #eff6ff; --accent-dark: #1d4ed8;
+      --teal: #0d9488; --teal-light: #f0fdfa; --teal-border: #99f6e4;
+      --amber: #d97706; --amber-light: #fffbeb; --amber-border: #fde68a;
+      --green: #16a34a; --green-light: #f0fdf4; --green-border: #bbf7d0;
+      --red: #dc2626; --red-light: #fef2f2; --red-border: #fecaca;
+      --navy: #0d2438;
+      --text-primary: #111827; --text-secondary: #6b7280;
+      --border: #e5e7eb; --bg: #ffffff; --bg-soft: #f9fafb;
+      --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text-primary); background: var(--bg); line-height: 1.6; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--text-primary); text-decoration: none; }
+    .nav-back { text-decoration: none; font-size: 0.88rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .cs-hero {
+      padding: 70px 5% 55px;
+      background:
+        radial-gradient(700px 350px at 90% -10%, rgba(20,184,166,0.18) 0%, transparent 60%),
+        radial-gradient(500px 300px at 0% 110%, rgba(37,99,235,0.25) 0%, transparent 60%),
+        linear-gradient(150deg, var(--navy) 0%, #11334e 60%, #143450 100%);
+      color: #e8f1f8;
+    }
+    .cs-hero-inner { max-width: 900px; margin: 0 auto; }
+    .cs-label {
+      display: inline-block; background: rgba(20,184,166,0.15); color: #5eead4;
+      border: 1px solid rgba(20,184,166,0.4);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 1.2rem;
+    }
+    .cs-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 1rem; color: #fff; }
+    .cs-summary { font-size: 1.02rem; color: #9fb8cc; max-width: 680px; line-height: 1.8; margin-bottom: 1.8rem; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.2rem; }
+    .meta-item { font-size: 0.85rem; color: #e8f1f8; }
+    .meta-label { font-weight: 600; color: #7d9bb5; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; display: block; margin-bottom: 2px; }
+
+    /* Journey strip */
+    .journey { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+    .j-step {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 30px; padding: 7px 16px 7px 8px;
+      font-size: 0.82rem; font-weight: 600; color: #e8f1f8;
+    }
+    .j-dot {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 800; color: #fff;
+    }
+    .j-arrow { color: #5b7889; font-size: 0.9rem; }
+    .j-blue .j-dot { background: #3b82f6; }
+    .j-teal .j-dot { background: #14b8a6; }
+    .j-amber .j-dot { background: #f59e0b; }
+    .j-green .j-dot { background: #22c55e; }
+
+    /* ── Sections ── */
+    section { padding: 52px 5%; }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.2rem; }
+    h3 { font-size: 1.05rem; font-weight: 700; margin: 2rem 0 0.9rem; display: flex; align-items: center; gap: 8px; }
+    .phase-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 13px; border-radius: 14px; margin-bottom: 0.7rem;
+    }
+    .phase-tag .p-dot { width: 8px; height: 8px; border-radius: 50%; }
+    p.body-text { color: var(--text-secondary); font-size: 0.96rem; line-height: 1.8; margin-bottom: 1rem; max-width: 720px; }
+    p.body-text strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Section tints */
+    .tint-red { background: linear-gradient(180deg, #fff 0%, var(--red-light) 100%); }
+    .tint-blue { background: var(--bg); }
+    .tint-teal { background: linear-gradient(180deg, var(--teal-light) 0%, #fff 100%); }
+    .tint-amber { background: linear-gradient(180deg, #fff 0%, var(--amber-light) 100%); }
+    .tint-green { background: linear-gradient(180deg, var(--green-light) 0%, #fff 100%); }
+
+    /* ── Snapshot ── */
+    .snapshot { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+    .snap-card { background: var(--bg); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: var(--radius); padding: 1.1rem 1.3rem; box-shadow: 0 2px 10px rgba(13,36,56,0.05); }
+    .snap-card:nth-child(2) { border-top-color: #14b8a6; }
+    .snap-card:nth-child(3) { border-top-color: #f59e0b; }
+    .snap-card:nth-child(4) { border-top-color: #22c55e; }
+    .snap-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 0.3rem; }
+    .snap-value { font-size: 0.92rem; font-weight: 600; color: var(--text-primary); line-height: 1.5; }
+
+    /* ── Issue / result lists ── */
+    .issue-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0.9rem; }
+    .issue-list li {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.2rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;
+      display: flex; gap: 0.8rem; align-items: flex-start;
+    }
+    .issue-list li strong { color: var(--text-primary); font-weight: 600; display: block; margin-bottom: 2px; }
+    .li-icon {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; margin-top: 2px;
+    }
+    .li-icon svg { width: 18px; height: 18px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .red-ic { background: var(--red-light); border: 1px solid var(--red-border); }
+    .red-ic svg { stroke: var(--red); }
+    .amber-ic { background: var(--amber-light); border: 1px solid var(--amber-border); }
+    .amber-ic svg { stroke: var(--amber); }
+    .green-ic { background: var(--green-light); border: 1px solid var(--green-border); }
+    .green-ic svg { stroke: var(--green); }
+
+    /* ── Card grids ── */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.25rem 1.3rem; box-shadow: 0 2px 10px rgba(13,36,56,0.04);
+      transition: transform 0.2s;
+    }
+    .info-card:hover { transform: translateY(-2px); }
+    .info-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%;
+      font-size: 0.82rem; font-weight: 800; margin-bottom: 0.7rem; color: #fff;
+    }
+    .num-blue { background: #3b82f6; }
+    .num-teal { background: #14b8a6; }
+    .num-amber { background: #f59e0b; }
+    .info-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .info-desc { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65; }
+    .doc-card { border-left: 3px solid #3b82f6; }
+
+    /* ── Outputs checklist ── */
+    .check-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.6rem 1.5rem; max-width: 720px; margin-top: 0.4rem; }
+    .check-list li { font-size: 0.9rem; color: var(--text-secondary); padding-left: 1.7rem; position: relative; line-height: 1.7; }
+    .check-list li::before {
+      content: '✓'; position: absolute; left: 0; top: 1px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green-light); border: 1px solid var(--green-border);
+      color: var(--green); font-weight: 700; font-size: 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Architecture diagram ── */
+    .arch-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-top: 1rem; box-shadow: 0 2px 12px rgba(13,36,56,0.05); }
+    .arch-wrap svg { width: 100%; height: auto; display: block; }
+
+    /* ── Stat band ── */
+    .stat-band { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .band-card {
+      background: var(--bg); border: 1px solid var(--green-border);
+      border-radius: var(--radius); padding: 1.4rem 1.5rem;
+      box-shadow: 0 3px 14px rgba(22,163,74,0.08);
+      position: relative; overflow: hidden;
+    }
+    .band-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #22c55e, #4ade80); }
+    .band-number { font-size: 2.2rem; font-weight: 800; color: var(--green); line-height: 1.1; }
+    .band-label { font-size: 0.88rem; font-weight: 700; margin: 0.3rem 0 0.4rem; }
+    .band-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+
+    .flow-strip {
+      background: linear-gradient(135deg, var(--navy) 0%, #143450 100%);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.4rem; font-size: 0.92rem; font-weight: 600; color: #5eead4;
+      text-align: center; max-width: 720px;
+      box-shadow: 0 4px 16px rgba(13,36,56,0.18);
+    }
+
+    /* ── Tech stack ── */
+    .stack-list { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .stack-tag {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
+      padding: 7px 16px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary);
+    }
+    .stack-tag.hl { background: var(--teal-light); border-color: var(--teal-border); color: var(--teal); font-weight: 600; }
+
+    /* ── Footer ── */
+    footer { text-align: center; padding: 2.5rem 5%; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-secondary); }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-back">← Back to portfolio</a>
+    <a href="index.html" class="nav-logo">Dwiti Bhavsar</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="cs-hero">
+    <div class="cs-hero-inner">
+      <span class="cs-label">Case Study · Data Engineering</span>
+      <h1 class="cs-title">Migrating Marketing Analytics from Supermetrics to Microsoft Fabric</h1>
+      <p class="cs-summary">
+        A two-person data team transformed a fragmented setup of 20-25+ scattered, API-driven
+        marketing reports into a governed medallion architecture on Microsoft Fabric. Delivered
+        in three structured phases, with 30+ Power BI reports migrated and zero data loss.
+      </p>
+      <div class="cs-meta">
+        <div class="meta-item"><span class="meta-label">Role</span>Senior Data Analyst</div>
+        <div class="meta-item"><span class="meta-label">Team</span>1 Data Engineer + 1 Senior Data Analyst</div>
+        <div class="meta-item"><span class="meta-label">Stack</span>Microsoft Fabric · Azure Data Factory · Power BI</div>
+      </div>
+      <div class="journey">
+        <span class="j-step j-blue"><span class="j-dot">1</span>Discovery</span>
+        <span class="j-arrow">→</span>
+        <span class="j-step j-teal"><span class="j-dot">2</span>Build</span>
+        <span class="j-arrow">→</span>
+        <span class="j-step j-amber"><span class="j-dot">3</span>Validation</span>
+        <span class="j-arrow">→</span>
+        <span class="j-step j-green"><span class="j-dot">✓</span>30+ reports · zero data loss</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Snapshot -->
+  <section>
+    <div class="section-inner">
+      <h2>Project Snapshot</h2>
+      <div class="snapshot">
+        <div class="snap-card">
+          <div class="snap-label">From</div>
+          <div class="snap-value">20-25+ reports on direct Supermetrics API endpoints, each a silo</div>
+        </div>
+        <div class="snap-card">
+          <div class="snap-label">To</div>
+          <div class="snap-value">Fabric medallion architecture → Power BI semantic model</div>
+        </div>
+        <div class="snap-card">
+          <div class="snap-label">Drivers</div>
+          <div class="snap-value">Governance, security, debuggability, and scale</div>
+        </div>
+        <div class="snap-card">
+          <div class="snap-label">Outcome</div>
+          <div class="snap-value">30+ reports migrated · zero data loss</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenge -->
+  <section class="tint-red" id="problem">
+    <div class="section-inner">
+      <h2>The Challenge</h2>
+      <p class="body-text">Why the existing Supermetrics setup was no longer sustainable:</p>
+      <ul class="issue-list">
+        <li>
+          <span class="li-icon red-ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+          <span><strong>20-25+ scattered reports</strong> Different reports connected to different API endpoints, creating a fragmented setup that was difficult to manage.</span>
+        </li>
+        <li>
+          <span class="li-icon red-ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0M12 15v2"/></svg></span>
+          <span><strong>No governance or security</strong> No centralised security model or consistent governance across the reporting layer.</span>
+        </li>
+        <li>
+          <span class="li-icon red-ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M8 11h6"/></svg></span>
+          <span><strong>Impossible to debug</strong> Unique filters and date ranges made failures hard to reverse-engineer when issues appeared.</span>
+        </li>
+        <li>
+          <span class="li-icon red-ic"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 7-8"/><path d="M21 12V8h-4"/><path d="M3 21h18" stroke-dasharray="2 3"/></svg></span>
+          <span><strong>Not built to scale</strong> As campaigns multiplied and data sources expanded, the architecture became unsustainable.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Phase 1 -->
+  <section class="tint-blue" id="discovery">
+    <div class="section-inner">
+      <span class="phase-tag" style="background:#eff6ff;color:#1d4ed8;"><span class="p-dot" style="background:#3b82f6;"></span>Phase 1 · Discovery</span>
+      <h2>Laying the Foundation</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <span class="info-num num-blue">1</span>
+          <div class="info-title">Stakeholder Workshops</div>
+          <div class="info-desc">Ran focused sessions to understand business goals, reporting gaps, and future priorities.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-num num-blue">2</span>
+          <div class="info-title">Report Reverse Engineering</div>
+          <div class="info-desc">Mapped existing reports to uncover logic, dependencies, and hidden duplication across the setup.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-num num-blue">3</span>
+          <div class="info-title">Supermetrics Consultation</div>
+          <div class="info-desc">Aligned with Supermetrics engineers on platform constraints, changes, and migration considerations.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-num num-blue">4</span>
+          <div class="info-title">Schema Deep-Dive</div>
+          <div class="info-desc">Documented schemas, columns, and endpoint details to define the technical foundation for Azure.</div>
+        </div>
+      </div>
+
+      <h3>Discovery Outputs</h3>
+      <ul class="check-list">
+        <li>Priority matrix of all reports</li>
+        <li>Redundant reports identified</li>
+        <li>Future report pipeline mapped</li>
+        <li>Critical KPIs catalogued</li>
+        <li>API constraints documented</li>
+        <li>Go/no-go criteria established</li>
+      </ul>
+
+      <h3>Documents Managed</h3>
+      <p class="body-text">
+        Key discovery artefacts kept the migration transparent, collaborative, and easy to validate:
+      </p>
+      <div class="grid-2">
+        <div class="info-card doc-card">
+          <div class="info-title">Mapping Doc</div>
+          <div class="info-desc">Tables, columns, aggregations, and pivots captured in one source of truth, shared with data engineers for full visibility and comment threads.</div>
+        </div>
+        <div class="info-card doc-card">
+          <div class="info-title">Business Logic Log</div>
+          <div class="info-desc">All current report logic captured for cross-checking during migration.</div>
+        </div>
+        <div class="info-card doc-card">
+          <div class="info-title">Change Tracker</div>
+          <div class="info-desc">Timeline, blockers, change requests, and team contributions tracked in one place.</div>
+        </div>
+        <div class="info-card doc-card">
+          <div class="info-title">Refresh Plan</div>
+          <div class="info-desc">Data frequency and load type agreed in a dedicated workshop with stakeholders.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Phase 2 -->
+  <section class="tint-teal" id="build">
+    <div class="section-inner">
+      <span class="phase-tag" style="background:#f0fdfa;color:#0d9488;border:1px solid #99f6e4;"><span class="p-dot" style="background:#14b8a6;"></span>Phase 2 · Build</span>
+      <h2>Architecture &amp; Engineering</h2>
+      <p class="body-text">
+        Built the medallion architecture in Microsoft Fabric with defined ownership layers,
+        transformation stages, and reporting delivery patterns.
+      </p>
+      <div class="arch-wrap">
+        <svg viewBox="0 0 860 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline: Supermetrics API, Azure Data Factory, Bronze, Silver, Gold layers, Power BI">
+          <rect x="15" y="80" width="140" height="70" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+          <text x="85" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#1d4ed8">Supermetrics API</text>
+          <text x="85" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#3b82f6">Source data extraction</text>
+          <rect x="185" y="80" width="140" height="70" rx="10" fill="#f0fdfa" stroke="#5eead4"/>
+          <text x="255" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0d9488">Azure Data Factory</text>
+          <text x="255" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#0f766e">Orchestrated ingestion</text>
+          <rect x="355" y="80" width="115" height="70" rx="10" fill="#fdf3e7" stroke="#e2a268"/>
+          <text x="412" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#b45309">Bronze</text>
+          <text x="412" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#92400e">Raw data</text>
+          <rect x="500" y="80" width="115" height="70" rx="10" fill="#f4f6f8" stroke="#b6c2cc"/>
+          <text x="557" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#5b6b7a">Silver</text>
+          <text x="557" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#6b7280">Validated, transformed</text>
+          <rect x="645" y="80" width="115" height="70" rx="10" fill="#fef9e7" stroke="#eab308"/>
+          <text x="702" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#a16207">Gold</text>
+          <text x="702" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="#854d0e">KPI-ready outputs</text>
+          <path d="M155 115 h22 m-8 -6 l8 6 l-8 6" stroke="#3b82f6" stroke-width="2" fill="none"/>
+          <path d="M325 115 h22 m-8 -6 l8 6 l-8 6" stroke="#14b8a6" stroke-width="2" fill="none"/>
+          <path d="M470 115 h22 m-8 -6 l8 6 l-8 6" stroke="#9ca3af" stroke-width="2" fill="none"/>
+          <path d="M615 115 h22 m-8 -6 l8 6 l-8 6" stroke="#eab308" stroke-width="2" fill="none"/>
+          <text x="430" y="42" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#0d9488">MICROSOFT FABRIC · MEDALLION LAYERS</text>
+          <rect x="355" y="55" width="405" height="110" rx="12" fill="none" stroke="#5eead4" stroke-dasharray="5 4"/>
+          <rect x="280" y="195" width="300" height="40" rx="10" fill="#fffbeb" stroke="#f59e0b"/>
+          <text x="430" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" font-weight="700" fill="#b45309">Power BI · 30+ migrated reports · Direct Query &amp; Import</text>
+          <path d="M702 150 v30 c0 12 -10 15 -22 15 h-95" stroke="#f59e0b" stroke-width="2" fill="none"/>
+          <path d="M593 195 l-10 -6 v12 z" fill="#f59e0b"/>
+        </svg>
+      </div>
+      <h3>Engineering Decisions</h3>
+      <div class="grid-2">
+        <div class="info-card" style="border-top:3px solid #14b8a6;">
+          <div class="info-title">Table Categorisation</div>
+          <div class="info-desc">Reviewed source tables and grouped them into raw, curated, and reporting-ready sets for cleaner ownership.</div>
+        </div>
+        <div class="info-card" style="border-top:3px solid #14b8a6;">
+          <div class="info-title">Star Schema Design</div>
+          <div class="info-desc">Designed a reporting-friendly model with clear dimensions, facts, and consistent KPI definitions.</div>
+        </div>
+        <div class="info-card" style="border-top:3px solid #14b8a6;">
+          <div class="info-title">Smart Refresh Strategy</div>
+          <div class="info-desc">Balanced refresh frequency and query performance to support both Direct Query and Import mode.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Phase 3 -->
+  <section class="tint-amber" id="validation">
+    <div class="section-inner">
+      <span class="phase-tag" style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;"><span class="p-dot" style="background:#f59e0b;"></span>Phase 3 · Testing, Validation &amp; Sign-Off</span>
+      <h2>Testing and Validation Strategy</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <span class="info-num num-amber">1</span>
+          <div class="info-title">Logic Validation</div>
+          <div class="info-desc">Validated columns, calculations, and business logic against current reports.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-num num-amber">2</span>
+          <div class="info-title">KPI Number Matching</div>
+          <div class="info-desc">Tested critical metrics to confirm numerical accuracy across all reports.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-num num-amber">3</span>
+          <div class="info-title">Parallel Running</div>
+          <div class="info-desc">Ran old and new reports together for 1-2 weeks to confirm stability.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-num num-amber">4</span>
+          <div class="info-title">Formal Sign-Off</div>
+          <div class="info-desc">Secured stakeholder approval before commissioning to production.</div>
+        </div>
+      </div>
+      <h3>Challenges Navigated</h3>
+      <ul class="issue-list">
+        <li>
+          <span class="li-icon amber-ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18" stroke-dasharray="3 3"/><path d="M5 5l4 4M19 5l-4 4M5 19l4-4M19 19l-4-4"/></svg></span>
+          <span><strong>Schema drift from the API source</strong> Upstream changes shifted schemas mid-migration and were caught by the validation layers.</span>
+        </li>
+        <li>
+          <span class="li-icon amber-ic"><svg viewBox="0 0 24 24"><path d="M4 7h10M4 12h7M4 17h13"/><path d="M18 6l3 3-3 3"/></svg></span>
+          <span><strong>Renamed field calls breaking pipelines</strong> Traced through the mapping doc and corrected without losing lineage.</span>
+        </li>
+        <li>
+          <span class="li-icon amber-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <span><strong>Social media OAuth authorisation issues</strong> Re-established authorisations and hardened the refresh setup. All resolved with zero data loss.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Impact -->
+  <section class="tint-green" id="results">
+    <div class="section-inner">
+      <span class="phase-tag" style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;"><span class="p-dot" style="background:#22c55e;"></span>Outcome</span>
+      <h2>Impact &amp; Results</h2>
+      <p class="body-text">A full data platform transformation: delivered, documented, and zero data loss.</p>
+      <div class="stat-band">
+        <div class="band-card">
+          <div class="band-number">30+</div>
+          <div class="band-label">Reports Migrated</div>
+          <div class="band-desc">Successfully converted all existing Power BI reports to the new architecture.</div>
+        </div>
+        <div class="band-card">
+          <div class="band-number">0</div>
+          <div class="band-label">Data Loss</div>
+          <div class="band-desc">Zero data loss during migration with complete integrity preserved.</div>
+        </div>
+        <div class="band-card">
+          <div class="band-number">3</div>
+          <div class="band-label">Phases Delivered</div>
+          <div class="band-desc">Bronze, Silver, and Gold layers delivered with clear ownership and responsibilities.</div>
+        </div>
+      </div>
+      <div class="flow-strip">Supermetrics → Azure Data Factory → Microsoft Fabric → Power BI Semantic Model</div>
+      <h3>Key Takeaways</h3>
+      <ul class="issue-list">
+        <li>
+          <span class="li-icon green-ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <span><strong>Centralised governance</strong> Clear lineage, security, and a single source of truth.</span>
+        </li>
+        <li>
+          <span class="li-icon green-ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M19 16l2 2-3 3"/></svg></span>
+          <span><strong>Structured process</strong> Discovery, build, and testing kept delivery on track.</span>
+        </li>
+        <li>
+          <span class="li-icon green-ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M3 20c0-3 2.2-5 5-5s5 2 5 5M13 15.5c.9-.4 1.9-.5 3-.5 2.8 0 5 2 5 5"/></svg></span>
+          <span><strong>Cross-functional collaboration</strong> Teams stayed aligned with regular stakeholder input, turning a fragmented setup into a scalable, governable platform.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section>
+    <div class="section-inner">
+      <h2>Tech Stack</h2>
+      <div class="stack-list">
+        <span class="stack-tag hl">Microsoft Fabric</span>
+        <span class="stack-tag hl">Azure Data Factory</span>
+        <span class="stack-tag">Medallion Architecture (Bronze / Silver / Gold)</span>
+        <span class="stack-tag">Star Schema Modelling</span>
+        <span class="stack-tag hl">Power BI · Direct Query &amp; Import</span>
+        <span class="stack-tag">Supermetrics API</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Case study by Dwiti Bhavsar · <a href="index.html">Back to portfolio</a></p>
+  </footer>
+
+</body>
+</html>
