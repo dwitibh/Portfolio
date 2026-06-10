@@ -3,23 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dwiti | Data Scientist & Analyst</title>
+  <title>Dwiti Bhavsar | Senior Data Analyst &amp; BI Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --accent: #2563eb;
-      --accent-light: #eff6ff;
-      --text-primary: #111827;
-      --text-secondary: #6b7280;
-      --border: #e5e7eb;
+      --navy: #0d2438;
+      --navy-soft: #143450;
+      --teal: #14b8a6;
+      --teal-dark: #0d9488;
+      --teal-deep: #0f766e;
+      --teal-light: #ccfbf1;
+      --teal-faint: #f0fdfa;
+      --text-primary: #122a3f;
+      --text-secondary: #51687c;
+      --border: #dde7ee;
       --bg: #ffffff;
-      --bg-soft: #f9fafb;
-      --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+      --bg-soft: #f4f8fb;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(13,36,56,0.05), 0 6px 20px rgba(13,36,56,0.06);
     }
 
     html { scroll-behavior: smooth; }
@@ -34,45 +39,41 @@
     /* ── Nav ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 5%;
       display: flex; align-items: center; justify-content: space-between;
       height: 60px;
     }
-    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text-primary); text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-logo { font-weight: 700; font-size: 1.05rem; color: var(--navy); text-decoration: none; }
+    .nav-logo span { color: var(--teal-dark); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--teal-dark); }
 
     /* ── Hero ── */
     #hero {
-      padding: 80px 5% 80px;
-      background: linear-gradient(135deg, #f8faff 0%, #ffffff 60%, #f0f7ff 100%);
+      padding: 85px 5% 90px;
+      background:
+        radial-gradient(800px 400px at 88% -5%, rgba(20,184,166,0.09) 0%, transparent 60%),
+        radial-gradient(600px 350px at -5% 105%, rgba(13,36,56,0.06) 0%, transparent 65%),
+        linear-gradient(160deg, #f7fbfd 0%, #ffffff 55%, #f2f9f8 100%);
       border-bottom: 1px solid var(--border);
-      position: relative; overflow: hidden;
-    }
-    #hero::before {
-      content: '';
-      position: absolute; top: -80px; right: -80px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%);
-      pointer-events: none;
     }
     .hero-inner {
-      max-width: 900px; margin: 0 auto;
+      max-width: 980px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
       gap: 3rem;
     }
     .hero-text { flex: 1; }
     .hero-photo { flex-shrink: 0; }
     .photo-ring {
-      width: 200px; height: 200px;
+      width: 256px; height: 256px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), #60a5fa);
-      padding: 3px;
-      box-shadow: 0 8px 32px rgba(37,99,235,0.18);
+      background: linear-gradient(135deg, var(--teal), #2dd4bf 50%, var(--navy));
+      padding: 4px;
+      box-shadow: 0 10px 36px rgba(13,36,56,0.18);
     }
     .photo-inner {
       width: 100%; height: 100%; border-radius: 50%;
@@ -83,34 +84,45 @@
     .photo-inner img {
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center 15%;
-      transform: scale(1.25);
-      transform-origin: center 30%;
+      object-position: center;
       display: block;
       border-radius: 50%;
     }
-    .photo-placeholder-icon { display: none; }
-    .photo-placeholder-text { display: none; }
     .hero-label {
       display: inline-block;
-      background: var(--accent-light); color: var(--accent);
+      background: var(--teal-faint);
+      border: 1px solid #99f6e4;
+      color: var(--teal-deep);
       font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 20px; margin-bottom: 1.5rem;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 1.5rem;
     }
     h1 {
-      font-size: clamp(2rem, 4.5vw, 3.2rem);
-      font-weight: 700; line-height: 1.18;
-      color: var(--text-primary); margin-bottom: 1.2rem;
+      font-size: clamp(2rem, 4.5vw, 3.1rem);
+      font-weight: 800; line-height: 1.15;
+      color: var(--navy); margin-bottom: 1.2rem;
     }
-    h1 span { color: var(--accent); }
+    h1 span { color: var(--teal-dark); }
     .hero-sub {
-      font-size: 1.05rem; color: var(--text-secondary);
-      max-width: 520px; margin-bottom: 2.2rem; line-height: 1.75;
+      font-size: 1.02rem; color: var(--text-secondary);
+      max-width: 540px; margin-bottom: 1.6rem; line-height: 1.75;
     }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-    @media (max-width: 700px) {
+    .hero-cert {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: 0.82rem; font-weight: 600; color: var(--text-primary);
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+    .hero-cert .badge-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--teal); box-shadow: 0 0 6px rgba(20,184,166,0.8);
+    }
+    .hero-btns { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+    @media (max-width: 720px) {
       .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
-      .photo-ring { width: 130px; height: 130px; }
+      .photo-ring { width: 170px; height: 170px; }
     }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
@@ -118,93 +130,173 @@
       font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-primary { background: var(--teal-dark); color: #fff; }
+    .btn-primary:hover { background: var(--teal-deep); transform: translateY(-1px); }
     .btn-outline { background: transparent; color: var(--text-primary); border: 1.5px solid var(--border); }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-outline:hover { border-color: var(--teal-dark); color: var(--teal-dark); }
 
     /* ── Sections ── */
-    section { padding: 70px 5%; }
-    .section-inner { max-width: 900px; margin: 0 auto; }
+    section { padding: 72px 5%; }
+    .section-inner { max-width: 980px; margin: 0 auto; }
     .section-label {
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal-dark); margin-bottom: 0.6rem;
     }
-    h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 0.8rem; }
-    .section-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 2.5rem; }
+    h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--navy); }
+    .section-sub { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.8rem; max-width: 640px; }
+    .section-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 2.4rem; }
 
     /* ── About ── */
     #about { background: var(--bg-soft); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-    .about-text p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.98rem; line-height: 1.75; }
-    .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.4rem; }
-    .skill-tag {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 6px; padding: 5px 12px;
-      font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);
+    .about-text { max-width: 760px; }
+    .about-text p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.97rem; line-height: 1.8; }
+    .about-text p strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Horizontal stats band */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.1rem; margin: 2.4rem 0 2.6rem;
     }
-    .about-stats { display: flex; flex-direction: column; gap: 1.2rem; }
     .stat-card {
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.4rem 1.6rem;
+      border-radius: var(--radius); padding: 1.25rem 1.4rem;
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      box-shadow: var(--shadow);
     }
-    .stat-number { font-size: 2rem; font-weight: 700; color: var(--accent); }
-    .stat-desc { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem; }
-    .stat-card { border-left: 3px solid var(--accent); }
+    .stat-icon {
+      flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 12px;
+      background: var(--teal-faint); border: 1px solid #99f6e4;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .stat-icon svg { width: 22px; height: 22px; stroke: var(--teal-dark); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .stat-number { font-size: 1.45rem; font-weight: 800; color: var(--navy); line-height: 1.2; }
+    .stat-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.15rem; line-height: 1.5; }
+    .cert-card {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+      border: none;
+    }
+    .cert-card .stat-number { color: #fff; }
+    .cert-card .stat-desc { color: #9fb8cc; }
+    .cert-card .stat-icon { background: rgba(20,184,166,0.15); border-color: rgba(20,184,166,0.4); }
+    .cert-card .stat-icon svg { stroke: #5eead4; }
+
+    /* Skill groups */
+    .skill-groups {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.6rem 2.4rem; margin-top: 2.2rem;
+    }
+    .skill-group-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.8rem; }
+    .skill-group-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: var(--teal-faint); border: 1px solid #99f6e4;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .skill-group-icon svg { width: 18px; height: 18px; stroke: var(--teal-dark); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .skill-group-title { font-size: 0.92rem; font-weight: 700; color: var(--navy); }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .skill-pill {
+      background: #e8eff5; color: var(--text-primary);
+      border-radius: 20px; padding: 5px 13px;
+      font-size: 0.8rem; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .skill-pill:hover { background: var(--teal-light); color: var(--teal-deep); }
+    .skill-pill.primary { background: var(--teal-light); color: var(--teal-deep); font-weight: 600; }
 
     /* ── Projects ── */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.4rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.5rem; }
     .project-card {
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.8rem;
+      border-radius: var(--radius); overflow: hidden;
       box-shadow: var(--shadow); transition: all 0.25s;
       display: flex; flex-direction: column;
       text-decoration: none; color: inherit;
     }
-    .project-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); border-color: var(--accent); }
-    .card-type {
-      font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--accent); margin-bottom: 0.8rem;
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(13,36,56,0.12); border-color: var(--teal); }
+    .card-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      display: block; overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
     }
-    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.35; }
-    .card-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; flex: 1; }
-    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+    .card-thumb svg { width: 100%; height: 100%; display: block; }
+    .card-body { padding: 1.4rem 1.5rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
+    .card-type {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--teal-dark); margin-bottom: 0.6rem;
+    }
+    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.35; color: var(--navy); }
+    .card-desc { font-size: 0.87rem; color: var(--text-secondary); line-height: 1.65; flex: 1; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.1rem; }
     .card-tag {
-      background: var(--accent-light); color: var(--accent);
+      background: var(--teal-light); color: var(--teal-deep);
       font-size: 0.72rem; font-weight: 600;
       padding: 3px 9px; border-radius: 4px;
     }
-    .card-footer {
-      margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--border);
-      font-size: 0.82rem; font-weight: 600; color: var(--accent);
-      display: flex; align-items: center; gap: 5px;
-    }
-    .card-wip { background: #fef9c3; color: #854d0e; }
     .card-tag-wip { background: #fef9c3; color: #854d0e; font-size: 0.72rem; font-weight: 600; padding: 3px 9px; border-radius: 4px; }
+    .card-footer {
+      margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid var(--border);
+      font-size: 0.82rem; font-weight: 600; color: var(--teal-dark);
+      display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+    }
+    .card-footer a { color: var(--teal-dark); text-decoration: none; }
+    .card-footer a:hover { text-decoration: underline; }
+
+    #bi-projects { background: var(--bg); }
+    #ds-projects { background: var(--bg-soft); }
+
+    /* ── AI Literacy ── */
+    #ai-literacy { background: var(--bg); }
+    .ai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.3rem; }
+    .ai-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem 1.5rem 1.4rem;
+      box-shadow: var(--shadow); transition: all 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .ai-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--teal), #2dd4bf);
+    }
+    .ai-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(13,36,56,0.12); }
+    .ai-icon {
+      width: 46px; height: 46px; border-radius: 13px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .ai-icon svg { width: 24px; height: 24px; stroke: #5eead4; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ai-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.45rem; }
+    .ai-desc { font-size: 0.87rem; color: var(--text-secondary); line-height: 1.7; }
 
     /* ── Contact ── */
-    #contact { background: var(--bg-soft); }
+    #contact { background: var(--bg-soft); border-top: 1px solid var(--border); }
     .contact-box {
-      background: var(--bg); border: 1px solid var(--border);
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: var(--radius); padding: 2.5rem 2rem;
-      text-align: center; max-width: 540px; margin: 0 auto;
+      text-align: center; max-width: 560px; margin: 0 auto;
     }
     .contact-box p { color: var(--text-secondary); margin-bottom: 1.8rem; font-size: 0.95rem; }
     .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
     /* ── Footer ── */
     footer {
-      text-align: center; padding: 2rem 5%;
+      text-align: center; padding: 1.8rem 5%;
+      background: var(--bg-soft);
       border-top: 1px solid var(--border);
       font-size: 0.82rem; color: var(--text-secondary);
     }
+    footer a { color: var(--teal-dark); text-decoration: none; }
 
     /* ── Responsive ── */
-    @media (max-width: 640px) {
-      .about-grid { grid-template-columns: 1fr; }
+    @media (max-width: 680px) {
+      .stats-row { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
       nav { padding: 0 4%; }
-      .nav-links { gap: 1.2rem; }
+      .nav-links { gap: 1rem; }
     }
   </style>
 </head>
@@ -212,10 +304,12 @@
 
   <!-- Nav -->
   <nav>
-    <a href="#hero" class="nav-logo">Dwiti Bhavsar</a>
+    <a href="#hero" class="nav-logo">Dwiti <span>Bhavsar</span></a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#projects">Work</a></li>
+      <li><a href="#bi-projects">Data Analytics</a></li>
+      <li><a href="#ds-projects">Data Science</a></li>
+      <li><a href="#ai-literacy">AI Literacy</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -224,17 +318,20 @@
   <section id="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-label">Data Scientist · Senior Analyst</div>
-        <h1>I turn messy data<br />into <span>decisions that stick.</span></h1>
+        <div class="hero-label">Senior Data Analyst · Senior BI Engineer</div>
+        <h1>From complex enterprise data<br />to <span>decisions leaders trust.</span></h1>
         <p class="hero-sub">
-          10+ years of production analytics: revenue risk models, NLP platforms, forecasting
-          pipelines, built in real organisations under real constraints. I work end-to-end:
-          from wrangling complex data and building ML models to dashboards that people actually use.
-          Actively advancing in agentic AI and automated workflows, including n8n
-          and AI-driven pipeline automation.
+          10+ years of production analytics: revenue risk models, NLP platforms, Fabric
+          Lakehouse migrations, and forecasting pipelines, built in real organisations
+          under real constraints. I work end-to-end: from ingestion and modelling to
+          dashboards that people actually use.
         </p>
+        <div class="hero-cert">
+          <span class="badge-dot"></span>
+          Microsoft Certified: Fabric Analytics Engineer Associate (DP-600)
+        </div>
         <div class="hero-btns">
-          <a href="#projects" class="btn btn-primary">View My Work →</a>
+          <a href="#bi-projects" class="btn btn-primary">View My Work →</a>
           <a href="https://www.linkedin.com/in/dwiti-bhavsar-1b955b38" target="_blank" class="btn btn-outline">LinkedIn</a>
           <a href="https://dwitib.substack.com/profile/posts" target="_blank" class="btn btn-outline">Substack</a>
           <a href="https://github.com/dwitibh" target="_blank" class="btn btn-outline">GitHub</a>
@@ -243,7 +340,7 @@
       <div class="hero-photo">
         <div class="photo-ring">
           <div class="photo-inner">
-            <img src="profile.jpg" alt="Dwiti Bhavsar" />
+            <img src="profile-hero.png" alt="Dwiti Bhavsar" />
           </div>
         </div>
       </div>
@@ -256,199 +353,395 @@
       <p class="section-label">About</p>
       <h2>The person behind the data</h2>
       <hr class="section-divider" />
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I'm a Senior Data Analyst with 10+ years of experience turning complex commercial,
-            sales, and financial data into decisions that move businesses forward. From a revenue
-            risk model protecting £5M annually to an AI-powered NPS platform used by 1,000+
-            people across a global enterprise.
-          </p>
-          <p>
-            I'm now deliberately expanding into data science, building ML models, time series
-            forecasting systems, and end-to-end Python pipelines as independent projects. My goal
-            is to bring production-grade analytical thinking to data science problems, not just
-            notebook experiments.
-          </p>
-          <p>
-            Everything in this portfolio is either real work I've shipped professionally
-            or projects I'm actively building.
-          </p>
-          <div class="skills-list">
-            <span class="skill-tag">Power BI · DAX</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">SQL</span>
-            <span class="skill-tag">Microsoft Fabric</span>
-            <span class="skill-tag">Databricks</span>
-            <span class="skill-tag">Azure Data Ecosystem</span>
-            <span class="skill-tag">GPT Integration</span>
-            <span class="skill-tag">NLP</span>
-            <span class="skill-tag">Revenue Risk Modelling</span>
-            <span class="skill-tag">Pipeline Analytics</span>
-            <span class="skill-tag">Salesforce / CRM</span>
-            <span class="skill-tag">Predictive Modelling</span>
-            <span class="skill-tag">Agentic AI</span>
-            <span class="skill-tag">n8n · Workflow Automation</span>
+
+      <div class="stats-row">
+        <div class="stat-card cert-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/><path d="M9.5 9l1.8 1.8L14.8 7.3"/></svg>
+          </div>
+          <div>
+            <div class="stat-number">DP-600</div>
+            <div class="stat-desc">Microsoft Certified: Fabric Analytics Engineer Associate</div>
           </div>
         </div>
-        <div class="about-stats">
-          <div class="stat-card">
-            <div class="stat-number">10+</div>
-            <div class="stat-desc">Years in analytics, now expanding into Data Science</div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 7-8"/><path d="M15 8h4v4"/></svg>
           </div>
-          <div class="stat-card">
-            <div class="stat-number">3</div>
-            <div class="stat-desc">Industries: Finance, FM &amp; Tech</div>
+          <div>
+            <div class="stat-number">10+ years</div>
+            <div class="stat-desc">Production analytics and BI engineering</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-number">3×</div>
-            <div class="stat-desc">Award winner: MitieStar · Employee of Month · Rising Star</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4v18"/><path d="M19 21V11l-7-4"/><path d="M8.5 9.5h.01M8.5 13h.01M8.5 16.5h.01"/></svg>
+          </div>
+          <div>
+            <div class="stat-number">3 industries</div>
+            <div class="stat-desc">Finance, Facilities Management &amp; Tech</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>
+          </div>
+          <div>
+            <div class="stat-number">3× awards</div>
+            <div class="stat-desc">MitieStar · Employee of Month · Rising Star</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <p>
+          I'm Dwiti, a Senior Data Analyst and BI Engineer based in Dublin. Over 10+ years
+          across finance, facilities management, and tech, the through line has always been
+          the same: <strong>take data nobody fully trusts, make it reliable, and turn it into
+          something a decision maker actually uses.</strong>
+        </p>
+        <p>
+          Most recently at Mitie, a FTSE 250 facilities business, I built the award-winning
+          NPS Intelligence Platform used by 1,000+ people, a revenue risk model protecting
+          £5M annually, and commercial analytics across an £800M+ contract portfolio. I also
+          led the migration of marketing analytics from Supermetrics onto Microsoft Fabric,
+          owning the full chain: pipelines, medallion architecture, semantic models, and the
+          final report.
+        </p>
+        <p>
+          What keeps me in this field is the moment a dashboard changes a decision. I care
+          about the engineering underneath as much as the visual on top, which is why I
+          certified as a <strong>Fabric Analytics Engineer (DP-600)</strong> and why I build
+          data science projects end to end in my own time: ML models, time series forecasting,
+          and AI-driven workflow automation with n8n. I also write about practical analytics
+          on Substack, with a practitioner's voice rather than a thought leader's.
+        </p>
+      </div>
+
+      <div class="skill-groups">
+        <div class="skill-group">
+          <div class="skill-group-head">
+            <span class="skill-group-icon"><svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg></span>
+            <span class="skill-group-title">BI &amp; Visualisation</span>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">Power BI · DAX</span>
+            <span class="skill-pill">Semantic Models</span>
+            <span class="skill-pill">Power Query</span>
+            <span class="skill-pill">Salesforce / CRM</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-head">
+            <span class="skill-group-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>
+            <span class="skill-group-title">Data Engineering</span>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">Microsoft Fabric</span>
+            <span class="skill-pill">Data Factory · Dataflows Gen2</span>
+            <span class="skill-pill">PySpark · Notebooks</span>
+            <span class="skill-pill">Databricks</span>
+            <span class="skill-pill">Azure Data Ecosystem</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-head">
+            <span class="skill-group-icon"><svg viewBox="0 0 24 24"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg></span>
+            <span class="skill-group-title">Languages &amp; Modelling</span>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">Python</span>
+            <span class="skill-pill primary">SQL</span>
+            <span class="skill-pill">Predictive Modelling</span>
+            <span class="skill-pill">Revenue Risk Modelling</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-head">
+            <span class="skill-group-icon"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c2.2.5 4 2.4 4 4.8a4.9 4.9 0 0 1-2 4A4 4 0 0 1 14 21h-4a4 4 0 0 1-4-6.2 4.9 4.9 0 0 1-2-4C4 8.4 5.8 6.5 8 6a4 4 0 0 1 4-4z"/><path d="M9 12h6M12 9v6"/></svg></span>
+            <span class="skill-group-title">AI in Production</span>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill primary">Azure OpenAI · NLP</span>
+            <span class="skill-pill">GPT Integration</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Projects -->
-  <section id="projects">
+  <!-- BI Projects -->
+  <section id="bi-projects">
     <div class="section-inner">
-      <p class="section-label">Work</p>
-      <h2>Professional Work &amp; DS Projects</h2>
+      <p class="section-label">Data Analytics &amp; Engineering</p>
+      <h2>Professional Data Analytics Work</h2>
+      <p class="section-sub">Production platforms and case studies shipped in real organisations, anonymised where required.</p>
       <hr class="section-divider" />
       <div class="projects-grid">
 
-        <!-- Case Study 1: NPS Platform -->
+        <!-- NPS Platform -->
         <a href="nps-platform.html" class="project-card">
-          <div class="card-type">Case Study · Facilities Management</div>
-          <div class="card-title">NPS Intelligence Platform</div>
-          <div class="card-desc">
-            Award-winning production platform that transformed raw customer satisfaction data
-            into actionable operational intelligence, connecting 50k+ survey responses
-            to service outcomes across multiple service lines using Azure OpenAI and Microsoft Fabric.
-          </div>
-          <div class="card-tags">
-            <span class="card-tag">NLP</span>
-            <span class="card-tag">Azure OpenAI</span>
-            <span class="card-tag">Power BI</span>
-            <span class="card-tag">Python</span>
-          </div>
-          <div class="card-footer">Read case study →</div>
+          <span class="card-thumb"><img src="exec.png" alt="NPS Intelligence Platform executive dashboard" loading="lazy" /></span>
+          <span class="card-body">
+            <span class="card-type">Case Study · Facilities Management</span>
+            <span class="card-title">NPS Intelligence Platform</span>
+            <span class="card-desc">
+              Award-winning production platform that transformed raw customer satisfaction data
+              into operational intelligence, connecting 50k+ survey responses to service
+              outcomes across multiple service lines using Azure OpenAI and Microsoft Fabric.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">NLP</span>
+              <span class="card-tag">Azure OpenAI</span>
+              <span class="card-tag">Power BI</span>
+              <span class="card-tag">Microsoft Fabric</span>
+            </span>
+            <span class="card-footer">Read case study →</span>
+          </span>
         </a>
 
-        <!-- Case Study 2: Share of Wallet -->
+        <!-- Share of Wallet -->
         <a href="share-of-wallet.html" class="project-card">
-          <div class="card-type">Case Study · Commercial Analytics</div>
-          <div class="card-title">Share of Wallet Analysis</div>
-          <div class="card-desc">
-            Commercial analytics model that estimates client spend potential versus actual
-            captured revenue across a large contract portfolio. Surfaced white-space
-            opportunities and prioritised accounts for growth, directly informing
-            sales strategy and account management decisions.
-          </div>
-          <div class="card-tags">
-            <span class="card-tag">Salesforce</span>
-            <span class="card-tag">Power BI</span>
-            <span class="card-tag">DAX</span>
-            <span class="card-tag">Revenue Modelling</span>
-          </div>
-          <div class="card-footer">Read case study →</div>
+          <span class="card-thumb">
+            <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Share of Wallet bubble analysis">
+              <rect width="480" height="270" fill="#0d2438"/>
+              <line x1="50" y1="225" x2="450" y2="225" stroke="#2a4a66" stroke-width="1.5"/>
+              <line x1="50" y1="225" x2="50" y2="25" stroke="#2a4a66" stroke-width="1.5"/>
+              <circle cx="135" cy="160" r="34" fill="#14b8a6" opacity="0.85"/>
+              <circle cx="225" cy="110" r="24" fill="#2dd4bf" opacity="0.7"/>
+              <circle cx="300" cy="170" r="42" fill="#0d9488" opacity="0.8"/>
+              <circle cx="375" cy="85" r="19" fill="#5eead4" opacity="0.75"/>
+              <circle cx="395" cy="175" r="14" fill="#99f6e4" opacity="0.7"/>
+              <circle cx="185" cy="65" r="13" fill="#14b8a6" opacity="0.5"/>
+              <text x="50" y="248" fill="#9fb8cc" font-family="Inter, sans-serif" font-size="13" font-weight="600">Captured revenue vs spend potential · whitespace by account</text>
+            </svg>
+          </span>
+          <span class="card-body">
+            <span class="card-type">Case Study · Commercial Analytics</span>
+            <span class="card-title">Share of Wallet Analysis</span>
+            <span class="card-desc">
+              Commercial analytics model estimating client spend potential versus captured
+              revenue across an £800M+ contract portfolio. Surfaced whitespace opportunities
+              and prioritised accounts for growth, directly informing sales strategy and
+              account management decisions.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">Salesforce</span>
+              <span class="card-tag">Power BI</span>
+              <span class="card-tag">DAX</span>
+              <span class="card-tag">Revenue Modelling</span>
+            </span>
+            <span class="card-footer">Read case study →</span>
+          </span>
         </a>
 
-        <!-- Case Study 3: Workplace Experience Analytics -->
+        <!-- Workplace Experience Analytics -->
         <a href="workplace-survey.html" class="project-card">
-          <div class="card-type">Case Study · Workplace Analytics</div>
-          <div class="card-title">Workplace Experience Analytics Platform</div>
-          <div class="card-desc">
-            Client-facing platform that transforms 1,000+ workplace survey responses into
-            strategic workforce intelligence: combining demographic segmentation, 15-persona
-            behavioural classification (Power Query), and Python NLP comment analysis to help
-            consultants identify workplace issues and recommend targeted interventions.
-          </div>
-          <div class="card-tags">
-            <span class="card-tag">Microsoft Fabric</span>
-            <span class="card-tag">Power BI</span>
-            <span class="card-tag">Python</span>
-            <span class="card-tag">Persona Modelling</span>
-            <span class="card-tag">NLP</span>
-          </div>
-          <div class="card-footer">Read case study →</div>
+          <span class="card-thumb"><img src="efb27243-2163-4d5b-b958-6978eb7a8f4d.png" alt="Workplace Experience Analytics emotions circumplex model" loading="lazy" /></span>
+          <span class="card-body">
+            <span class="card-type">Case Study · Workplace Analytics</span>
+            <span class="card-title">Workplace Experience Analytics Platform</span>
+            <span class="card-desc">
+              Client-facing platform turning 1,000+ workplace survey responses into workforce
+              intelligence: demographic segmentation, 15-persona behavioural classification in
+              Power Query, and Python NLP comment analysis to help consultants recommend
+              targeted interventions.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">Microsoft Fabric</span>
+              <span class="card-tag">Power BI</span>
+              <span class="card-tag">Persona Modelling</span>
+              <span class="card-tag">NLP</span>
+            </span>
+            <span class="card-footer">Read case study →</span>
+          </span>
         </a>
+
+        <!-- Supermetrics to Fabric -->
+        <a href="supermetrics-fabric.html" class="project-card">
+          <span class="card-thumb"><img src="supermetrics-thumb.png" alt="Supermetrics to Fabric medallion architecture" loading="lazy" /></span>
+          <span class="card-body">
+            <span class="card-type">Case Study · Data Engineering</span>
+            <span class="card-title">Supermetrics to Fabric Migration</span>
+            <span class="card-desc">
+              Migrated 20-25+ scattered, API-driven marketing reports into a governed medallion
+              architecture on Microsoft Fabric: Azure Data Factory orchestration, Bronze, Silver,
+              and Gold layers, star schema semantic model, and 30+ Power BI reports cut over
+              with zero data loss.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">Microsoft Fabric</span>
+              <span class="card-tag">Azure Data Factory</span>
+              <span class="card-tag">Star Schema</span>
+              <span class="card-tag">Power BI</span>
+            </span>
+            <span class="card-footer">Read case study →</span>
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DS Projects -->
+  <section id="ds-projects">
+    <div class="section-inner">
+      <p class="section-label">Data Science</p>
+      <h2>Data Science Projects</h2>
+      <p class="section-sub">End-to-end ML and forecasting projects, built and documented independently with the same production discipline.</p>
+      <hr class="section-divider" />
+      <div class="projects-grid">
 
         <!-- Customer Churn Prediction -->
-        <a href="https://github.com/dwitibh/Machine-learning/blob/main/Churn_project.ipynb" target="_blank" class="project-card">
-          <div class="card-type">ML · Classification</div>
-          <div class="card-title">Customer Churn Prediction</div>
-          <div class="card-desc">
-            EDA and ML classification on 1,000 customer records across 10 features. Uncovered
-            a 0.89 correlation between tenure and total charges. Built and compared five
-            models (Logistic Regression, KNN, SVM, Decision Tree, Random Forest) with GridSearchCV
-            tuning. Best model serialised with joblib for deployment.
-          </div>
-          <div class="card-tags">
-            <span class="card-tag">scikit-learn</span>
-            <span class="card-tag">Classification</span>
-            <span class="card-tag">GridSearchCV</span>
-            <span class="card-tag">Python</span>
-          </div>
-          <div class="card-footer">View on GitHub →</div>
-        </a>
+        <div class="project-card">
+          <span class="card-thumb"><img src="churn-screenshots/hero.png" alt="Customer churn prediction app" loading="lazy" /></span>
+          <span class="card-body">
+            <span class="card-type">ML · Classification</span>
+            <span class="card-title">Customer Churn Prediction</span>
+            <span class="card-desc">
+              EDA and ML classification on 1,000 customer records across 10 features. Built and
+              compared five models (Logistic Regression, KNN, SVM, Decision Tree, Random Forest)
+              with GridSearchCV tuning, best model serialised with joblib and wrapped in an
+              interactive scoring app.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">scikit-learn</span>
+              <span class="card-tag">GridSearchCV</span>
+              <span class="card-tag">Python</span>
+            </span>
+            <span class="card-footer">
+              <a href="https://github.com/dwitibh/Machine-learning/blob/main/Churn_project.ipynb" target="_blank">GitHub →</a>
+              <a href="churn-app.html">Live demo →</a>
+            </span>
+          </span>
+        </div>
 
-        <!-- Retail Pipeline Forecasting (Prophet) -->
-        <a href="https://github.com/dwitibh/Pipeline-Forecast-Prophet-Time-Series-Forecasting" target="_blank" class="project-card">
-          <div class="card-type">Time Series · Forecasting</div>
-          <div class="card-title">Retail Pipeline Forecasting</div>
-          <div class="card-desc">
-            Daily sales forecasting on 1,080 rows of retail data using Facebook Prophet. Handled
-            a non-standard ddmmyyyy integer date format with custom parsing, then modelled
-            daily, weekly, and yearly seasonality. Forecast extended 100 days with 95% uncertainty
-            intervals and full component decomposition.
-          </div>
-          <div class="card-tags">
-            <span class="card-tag">Prophet</span>
-            <span class="card-tag">Time Series</span>
-            <span class="card-tag">Retail</span>
-            <span class="card-tag">Python</span>
-          </div>
-          <div class="card-footer">View on GitHub →</div>
-        </a>
+        <!-- Retail Pipeline Forecasting -->
+        <div class="project-card">
+          <span class="card-thumb"><img src="forecast-screenshots/exec.png" alt="Retail sales forecast dashboard" loading="lazy" /></span>
+          <span class="card-body">
+            <span class="card-type">Time Series · Forecasting</span>
+            <span class="card-title">Retail Pipeline Sales Forecast</span>
+            <span class="card-desc">
+              Daily sales forecasting on 1,080 days of retail data with Facebook Prophet:
+              custom date parsing, full seasonal decomposition, a 100-day forward forecast with
+              95% uncertainty intervals, and 22.6% MAPE on a 100-day holdout, presented in an
+              interactive dashboard.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">Prophet</span>
+              <span class="card-tag">Time Series</span>
+              <span class="card-tag">Python</span>
+            </span>
+            <span class="card-footer">
+              <a href="https://github.com/dwitibh/Pipeline-Forecast-Prophet-Time-Series-Forecasting" target="_blank">GitHub →</a>
+              <a href="forecast-dashboard.html">Live dashboard →</a>
+            </span>
+          </span>
+        </div>
 
-        <!-- Energy Demand Forecasting (XGBoost) -->
-        <a href="https://github.com/dwitibh/energy-forecasting" target="_blank" class="project-card">
-          <div class="card-type">Time Series · Forecasting</div>
-          <div class="card-title">Energy Demand Forecasting</div>
-          <div class="card-desc">
-            XGBoost regression on 145,000+ rows of hourly PJM energy data spanning 2002–2018.
-            Engineered calendar features (hour, day-of-week, quarter, month, year, day-of-year),
-            trained with early stopping, and achieved an RMSE of 3,958 MW on the held-out test
-            set. Post-prediction error analysis identified August 2016 heatwave days as the
-            largest model blind spots.
-          </div>
-          <div class="card-tags">
-            <span class="card-tag">XGBoost</span>
-            <span class="card-tag">Energy</span>
-            <span class="card-tag">Feature Engineering</span>
-            <span class="card-tag">Python</span>
-          </div>
-          <div class="card-footer">View on GitHub →</div>
-        </a>
+        <!-- Energy Demand Forecasting -->
+        <div class="project-card">
+          <span class="card-thumb">
+            <svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hourly energy demand forecast chart">
+              <rect width="480" height="270" fill="#0d2438"/>
+              <line x1="45" y1="220" x2="445" y2="220" stroke="#2a4a66" stroke-width="1.5"/>
+              <polyline points="45,160 85,120 125,150 165,95 205,135 245,80 285,125 325,70 365,115 405,90 445,105"
+                fill="none" stroke="#14b8a6" stroke-width="3" stroke-linejoin="round"/>
+              <polyline points="45,175 85,140 125,165 165,115 205,150 245,100 285,140 325,92 365,130 405,108 445,122"
+                fill="none" stroke="#5eead4" stroke-width="2" stroke-dasharray="6 5" opacity="0.7"/>
+              <text x="45" y="248" fill="#9fb8cc" font-family="Inter, sans-serif" font-size="13" font-weight="600">145k+ hourly observations · XGBoost · RMSE 3,958 MW</text>
+            </svg>
+          </span>
+          <span class="card-body">
+            <span class="card-type">Time Series · Forecasting</span>
+            <span class="card-title">Energy Demand Forecasting</span>
+            <span class="card-desc">
+              XGBoost regression on 145,000+ rows of hourly PJM energy data (2002 to 2018).
+              Engineered calendar features, trained with early stopping, achieved RMSE of
+              3,958 MW on held-out data. Error analysis identified the August 2016 heatwave
+              as the model's largest blind spot.
+            </span>
+            <span class="card-tags">
+              <span class="card-tag">XGBoost</span>
+              <span class="card-tag">Feature Engineering</span>
+              <span class="card-tag">Python</span>
+            </span>
+            <span class="card-footer">
+              <a href="https://github.com/dwitibh/energy-forecasting" target="_blank">GitHub →</a>
+            </span>
+          </span>
+        </div>
 
-        <!-- Fuel Shock Forecasting — In Progress -->
-        <a href="https://github.com/dwitibh/Fuel-Shock-Forecasting" target="_blank" class="project-card card-wip">
-          <div class="card-type">Project · In Progress</div>
-          <div class="card-title">Fuel Shock Forecasting</div>
-          <div class="card-desc">
-            An end-to-end pipeline for detecting and forecasting global energy price shocks,
-            using geopolitical disruption signals, supply data, and macroeconomic indicators
-            to build a deployable forecasting model with an interactive dashboard.
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Literacy -->
+  <section id="ai-literacy">
+    <div class="section-inner">
+      <p class="section-label">AI Literacy</p>
+      <h2>Working fluently with AI</h2>
+      <p class="section-sub">AI is part of my daily toolkit, not a buzzword on a slide. I direct agents, build automations, and ship AI features into production systems.</p>
+      <hr class="section-divider" />
+      <div class="ai-grid">
+
+        <div class="ai-card">
+          <div class="ai-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 9l3 2.5L7 14M12.5 14H17"/></svg>
           </div>
-          <div class="card-tags">
-            <span class="card-tag">Time Series</span>
-            <span class="card-tag">Forecasting</span>
-            <span class="card-tag">Python</span>
-            <span class="card-tag-wip">In Progress</span>
+          <div class="ai-title">Claude Cowork &amp; Claude Code</div>
+          <div class="ai-desc">
+            My daily drivers for agentic work: delegating multi-step data and file tasks,
+            building and shipping projects (including this portfolio), and reviewing every
+            output like a senior would review a junior's work.
           </div>
-          <div class="card-footer">View project →</div>
-        </a>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.4L12 15l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9zM5 16l.7 1.6L7.3 18l-1.6.7L5 20.3 4.3 18.7 2.7 18l1.6-.4z"/></svg>
+          </div>
+          <div class="ai-title">Custom Claude Skills</div>
+          <div class="ai-desc">
+            I encode my own workflows into reusable skills, like an automated CV tailoring
+            pipeline with fixed formatting rules, gap analysis, and built-in QA checks that
+            runs the same way every time.
+          </div>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <div class="ai-title">Scheduled AI Automations</div>
+          <div class="ai-desc">
+            Recurring agent-run jobs that work while I don't: scheduled checks, digests,
+            and reporting tasks set up once and delivered on time, every time.
+          </div>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-icon">
+            <svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7 7.5l3.5 8M17 7.5l-3.5 8M7.5 6h9"/></svg>
+          </div>
+          <div class="ai-title">n8n Workflow Automation</div>
+          <div class="ai-desc">
+            AI-driven pipeline automation connecting APIs, models, and business tools,
+            turning manual multi-step processes into monitored, hands-off workflows.
+          </div>
+        </div>
+
+        <div class="ai-card">
+          <div class="ai-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 17V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 13l2.5-3 2 2.5L15.5 9 18 13"/><circle cx="8.5" cy="8.5" r="0.5"/></svg>
+          </div>
+          <div class="ai-title">AI in Production</div>
+          <div class="ai-desc">
+            Not just personal tooling: I shipped GPT-powered NLP inside the NPS Intelligence
+            Platform, classifying 50k+ survey comments for 1,000+ business users.
+          </div>
+        </div>
 
       </div>
     </div>
@@ -462,7 +755,7 @@
       <hr class="section-divider" />
       <div class="contact-box">
         <p>
-          I'm currently open to senior data scientist and analyst roles.
+          I'm currently open to senior data analyst and BI engineer roles.
           If you're working on an interesting problem, I'd love to hear about it.
         </p>
         <div class="contact-links">
@@ -475,7 +768,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 Dwiti · <a href="https://dwitibh.github.io/portfolio" style="color: var(--accent); text-decoration: none;">dwitibh.github.io/portfolio</a></p>
+    <p>© 2026 Dwiti Bhavsar · <a href="https://dwitibh.github.io/portfolio">dwitibh.github.io/portfolio</a></p>
   </footer>
 
 </body>
