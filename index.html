@@ -233,9 +233,10 @@
       font-size: 0.82rem; font-weight: 600; color: var(--teal-dark);
       display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
     }
-    .card-footer a { color: var(--teal-dark); text-decoration: none; position: relative; z-index: 1; }
+    .card-footer a { color: var(--teal-dark); text-decoration: none; }
     .card-footer a:hover { text-decoration: underline; }
-    .card-main-link::after { content: ''; position: absolute; inset: 0; z-index: 0; }
+    .card-footer a:not(.card-main-link) { position: relative; z-index: 1; }
+    .card-main-link::after { content: ''; position: absolute; inset: 0; }
 
     #bi-projects { background: var(--bg); }
     #ds-projects { background: var(--bg-soft); }
